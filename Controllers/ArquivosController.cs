@@ -95,15 +95,20 @@ namespace MeuProjeto.Controllers
 
                 File.AppendAllText(logPath, $"[{DateTime.Now}] Arquivo recebido com sucesso\n");
 
-                // Aqui você pode processar o arquivo na memória conforme necessário
-                return Ok(new
+                if (retornoValidacao.Count <= 0)
                 {
-                    mensagem = "Arquivo recebido com sucesso!",
-                    nomeArquivo = file.FileName,
-                    tamanhoArquivo = fileBytes.Length,
-                    tipoArquivo = tipoArquivo,
-                    totalLinhas = totalLinhas
-                });
+                    // Aqui você pode processar o arquivo na memória conforme necessário
+                    return Ok(new
+                    {
+                        mensagem = "Arquivo recebido com sucesso!",
+                        nomeArquivo = file.FileName,
+                        tamanhoArquivo = fileBytes.Length,
+                        tipoArquivo = tipoArquivo,
+                        totalLinhas = totalLinhas
+                    });
+                }
+                else
+
             }
             catch (Exception ex)
             {
