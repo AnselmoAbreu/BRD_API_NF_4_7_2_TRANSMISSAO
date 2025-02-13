@@ -8,10 +8,10 @@ using System.Web.Http;
 
 namespace MeuProjeto.Controllers
 {
-    [RoutePrefix("api/[controller]")]
+    [RoutePrefix("api/Arquivos")]
     public class ArquivosController : ApiController
     {
-        [HttpGet]
+        [HttpPost] // Mudado de [HttpGet] para [HttpPost]
         [Route("ENVIAR_ARQUIVO")]
         public async Task<IHttpActionResult> UploadArquivo()
         {
@@ -26,16 +26,16 @@ namespace MeuProjeto.Controllers
                 string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
 
                 // Cria o diretório se não existir
-                //if (!Directory.Exists(uploadPath))
-                //{
-                //    Directory.CreateDirectory(uploadPath);
-                //}
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
 
                 // Processa o conteúdo recebido
                 var provider = new MultipartFormDataStreamProvider(uploadPath);
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-                //// Obtém o arquivo
+                // Obtém o arquivo
                 var fileData = provider.FileData[0];
                 var uploadedFile = new FileInfo(fileData.LocalFileName);
 
