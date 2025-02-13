@@ -1,0 +1,4 @@
+@using BRD_API_NF_4_7_2_TRANSMISSAO.Areas.HelpPage.ModelDescriptions
+@model DictionaryModelDescription
+Dictionary of @Html.DisplayFor(m => Model.KeyModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.KeyModelDescription }) [key]
+and @Html.DisplayFor(m => Model.ValueModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.ValueModelDescription }) [value]

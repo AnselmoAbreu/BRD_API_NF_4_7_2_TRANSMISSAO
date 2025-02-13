@@ -1,0 +1,6 @@
+@using BRD_API_NF_4_7_2_TRANSMISSAO.Areas.HelpPage.ModelDescriptions
+@model CollectionModelDescription
+@if (Model.ElementDescription is ComplexTypeModelDescription)
+{
+    @Html.DisplayFor(m => m.ElementDescription)
+}
