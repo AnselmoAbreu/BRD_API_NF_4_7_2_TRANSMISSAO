@@ -507,10 +507,12 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         #endregion
 
         #region Motor Inicial
-        public async Task<List<string>> ExecutaArquivoAsync(FileInfo fileRows)
+        public async Task<List<string>> ExecutaArquivoAsync(byte[] fileRows)
         {
             listaDeErros.Clear();
-            using (var reader = new StreamReader(fileRows.FullName))
+
+            using (var memoryStream = new MemoryStream(fileRows))
+            using (var reader = new StreamReader(memoryStream))
             {
                 string linha;
                 while ((linha = await reader.ReadLineAsync()) != null)
@@ -543,8 +545,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
                     }
                 }
             }
+
             return listaDeErros;
         }
+
         #endregion
     }
 }

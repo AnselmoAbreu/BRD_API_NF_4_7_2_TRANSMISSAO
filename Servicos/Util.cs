@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
@@ -9,21 +12,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public string AdicionaZeros(decimal valor, int tamanho) // Preenche com zeros a esquerda
         {
             return valor.ToString().PadLeft(tamanho, '0');
-        }
-
-        public async Task<int> ContarLinhas(FileInfo fileRows) // Conta a qtd de linhas do arquivo
-        {
-            int contador = 0;
-            string linha;
-
-            using (var reader = new StreamReader(fileRows.FullName))
-            {
-                while (reader.ReadLine() != null)
-                {
-                    contador++;
-                }
-            }
-            return contador;
         }
 
         public bool VerificaExtensao(string extensao)
@@ -46,5 +34,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         {
             return decimal.TryParse(valor, out _);
         }
+
+        public int ContarLinhasArquivo(byte[] fileBytes)
+        {
+            int linhas = 0;
+            using (var stream = new MemoryStream(fileBytes))
+            using (var reader = new StreamReader(stream))
+            {
+                while (!reader.EndOfStream)
+                {
+                    reader.ReadLine();
+                    linhas++;
+                }
+            }
+            return linhas;
+        }
+
     }
+
 }

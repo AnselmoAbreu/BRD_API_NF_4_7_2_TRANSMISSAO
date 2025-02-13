@@ -18,7 +18,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             return linha.Substring(posicaoInicial, posicaoFinal - posicaoInicial + 1);
         }
 
-        public async Task<List<string>> ProcessarArquivo(FileInfo fileRows, string layout) // Conta a qtd de linhas do arquivo
+        public async Task<List<string>> ProcessarArquivo(byte[] fileRows, string layout) // Conta a qtd de linhas do arquivo
         {
             List<string> listaDeRetornos = new List<string>();
             if (layout == "COB400")
