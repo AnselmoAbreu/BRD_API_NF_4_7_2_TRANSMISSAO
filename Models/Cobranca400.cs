@@ -166,21 +166,21 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         public void TrataErrosHeader()
         {
             if (!util.EhNumerico(IdentificacaoRegistro))  // 001 a 001 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " IdentificacaoRegistro Posição : 001 a 001");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " IdentificacaoRegistro Posição : 001 a 001");
             if (!util.EhNumerico(IdentificacaoArquivoRemessa))  // 002 a 002 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " IdentificacaoArquivoRemessa Posição : 002 a 002");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " IdentificacaoArquivoRemessa Posição : 002 a 002");
             if (!util.EhNumerico(CodigoServico)) // 010 a 011 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " CodigoServico Posição : 010 a 011");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " CodigoServico Posição : 010 a 011");
             if (!util.EhNumerico(CodigoEmpresa))  // 027 a 046 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " CodigoEmpresa Posição : 027 a 046");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " CodigoEmpresa Posição : 027 a 046");
             if (!util.EhNumerico(NumeroBradescoCompensacao))  // 077 a 079 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " NumeroBradescoCompensacao Posição : 077 a 079");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " NumeroBradescoCompensacao Posição : 077 a 079");
             if (!util.EhNumerico(DataGravacaoArquivo))  // 095 a 100 (DDMMAA) >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " DataGravacaoArquivo Posição : 095 a 100");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " DataGravacaoArquivo Posição : 095 a 100");
             if (!util.EhNumerico(NumeroSequencialRemessa))  // 111 a 117 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " NumeroSequencialRemessa Posição : 111 a 117");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " NumeroSequencialRemessa Posição : 111 a 117");
             if (!util.EhNumerico(NumeroSequencialRegistro))  // 395 a 400 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro + " NumeroSequencialRegistro Posição : 395 a 400");
         }
         #endregion
         #endregion
@@ -238,94 +238,94 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         public void TrataErrosTipo1()
         {
             if (!util.EhNumerico(IdentificacaoRegistroTipo1)) // 001 a 001 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " IdentificacaoRegistroTipo1 Posição : 001 a 001");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " IdentificacaoRegistroTipo1 Posição : 001 a 001");
 
             if (!util.EhNumerico(AgenciaDebito))// 002 a 006 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " AgenciaDebito Posição : 002 a 006");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " AgenciaDebito Posição : 002 a 006");
 
             if (!util.EhNumerico(RazaoContaCorrente)) // 008 a 012 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " RazaoContaCorrente Posição : 008 a 012");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " RazaoContaCorrente Posição : 008 a 012");
 
             if (!util.EhNumerico(ContaCorrente)) // 013 a 019 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ContaCorrente Posição : 013 a 019");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ContaCorrente Posição : 013 a 019");
 
             if (!util.EhNumerico(CodigoBancoDebitadoCamaraCompensacao)) // 063 a 065
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " CodigoBancoDebitadoCamaraCompensacao Posição : 063 a 065");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " CodigoBancoDebitadoCamaraCompensacao Posição : 063 a 065");
 
             if (!util.EhNumerico(CampoMulta)) // 066 a 066 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " CampoMulta Posição : 066 a 066");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " CampoMulta Posição : 066 a 066");
 
             if (!util.EhNumerico(PercentualMulta)) // 067 a 070 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " PercentualMulta Posição : 067 a 070");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " PercentualMulta Posição : 067 a 070");
 
             if (!util.EhNumerico(IdentificacaoTituloBanco)) // 071 a 081 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " IdentificacaoTituloBanco Posição : 071 a 081");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " IdentificacaoTituloBanco Posição : 071 a 081");
 
             if (!util.EhNumerico(DescontoBonificacaoDia)) // 083 a 092 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " DescontoBonificacaoDia Posição : 083 a 092");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " DescontoBonificacaoDia Posição : 083 a 092");
 
             if (!util.EhNumerico(CondicaoEmissaoPapeletaCobranca)) // 093 a 093 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " CondicaoEmissaoPapeletaCobranca Posição : 093 a 093");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " CondicaoEmissaoPapeletaCobranca Posição : 093 a 093");
 
             if (!util.EhNumerico(EnderecamentoAvisoDebitoAutomaticoContaCorrente)) // 106 a 106 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " EnderecamentoAvisoDebitoAutomaticoContaCorrente Posição : 106 a 106");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " EnderecamentoAvisoDebitoAutomaticoContaCorrente Posição : 106 a 106");
 
             if (!util.EhNumerico(IdentificacaoOcorrencia)) // 109 a 110 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " IdentificacaoOcorrencia Posição : 109 a 110");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " IdentificacaoOcorrencia Posição : 109 a 110");
 
             if (!util.EhNumerico(DataVencimentoTitulo)) // 121 a 126 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " DataVencimentoTitulo Posição : 121 a 126");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " DataVencimentoTitulo Posição : 121 a 126");
 
             if (!util.EhNumerico(ValorTitulo)) // 127 a 139 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ValorTitulo Posição : 127 a 139");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ValorTitulo Posição : 127 a 139");
 
             if (!util.EhNumerico(BancoEncarregadoCobranca)) // 140 a 142 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " BancoEncarregadoCobranca Posição : 140 a 142");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " BancoEncarregadoCobranca Posição : 140 a 142");
 
             if (!util.EhNumerico(AgenciaDepositaria)) // 143 a 147 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " AgenciaDepositaria Posição : 143 a 147");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " AgenciaDepositaria Posição : 143 a 147");
 
             if (!util.EhNumerico(EspecieTitulo)) // 148 a 149 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " EspecieTitulo Posição : 148 a 149");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " EspecieTitulo Posição : 148 a 149");
 
             if (!util.EhNumerico(DataEmissaoTitulo)) // 151 a 156 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " DataEmissaoTitulo Posição : 151 a 156");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " DataEmissaoTitulo Posição : 151 a 156");
 
             if (!util.EhNumerico(PrimeiraInstrucao)) // 157 a 158 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " PrimeiraInstrucao Posição : 157 a 158");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " PrimeiraInstrucao Posição : 157 a 158");
 
             if (!util.EhNumerico(SegundaInstrucao)) // 159 a 160 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " SegundaInstrucao Posição : 159 a 160");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " SegundaInstrucao Posição : 159 a 160");
 
             if (!util.EhNumerico(ValorCobradoDiaAtraso)) // 161 a 173 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ValorCobradoDiaAtraso Posição : 161 a 173");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ValorCobradoDiaAtraso Posição : 161 a 173");
 
             if (!util.EhNumerico(DataLimiteConcessaoDesconto)) // 174 a 179 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " DataLimiteConcessaoDesconto Posição : 174 a 179");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " DataLimiteConcessaoDesconto Posição : 174 a 179");
 
             if (!util.EhNumerico(ValorDesconto)) // 180 a 192 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ValorDesconto Posição : 180 a 192");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ValorDesconto Posição : 180 a 192");
 
             if (!util.EhNumerico(ValorIof)) // 193 a 205 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ValorIof Posição : 193 a 205");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ValorIof Posição : 193 a 205");
 
             if (!util.EhNumerico(ValorAbatimentoConcedidoOuCancelado)) // 206 a 218 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " ValorAbatimentoConcedidoOuCancelado Posição : 206 a 218");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " ValorAbatimentoConcedidoOuCancelado Posição : 206 a 218");
 
             if (!util.EhNumerico(IdentificacaoTipoInscricaoPagador)) // 219 a 220 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " IdentificacaoTipoInscricaoPagador Posição : 219 a 220");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " IdentificacaoTipoInscricaoPagador Posição : 219 a 220");
 
             if (!util.EhNumerico(NumeroInscricaoPagador)) // 221 a 234 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " NumeroInscricaoPagador Posição : 221 a 234");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " NumeroInscricaoPagador Posição : 221 a 234");
 
             if (!util.EhNumerico(Cep)) // 327 a 331 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " Cep Posição : 327 a 331");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " Cep Posição : 327 a 331");
 
             if (!util.EhNumerico(SufixoCep))// 332 a 334 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " SufixoCep Posição : 332 a 334");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " SufixoCep Posição : 332 a 334");
 
             if (!util.EhNumerico(NumeroSequencialRegistroTipo1)) // 395 a 400 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " NumeroSequencialRegistroTipo1 Posição : 395 a 400");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " NumeroSequencialRegistroTipo1 Posição : 395 a 400");
         }
 
         public void ValidarCamposTipo1()
@@ -333,7 +333,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
             // Valida Multa + Percentual
             if ((CampoMulta == "2" && Convert.ToInt32(PercentualMulta) == 0) || (CampoMulta != "2" && Convert.ToInt32(PercentualMulta) > 0))
             {
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " Posição : 066 a 070 {Campo de Multa + Percentual de Multa");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " Posição : 066 a 070 {Campo de Multa + Percentual de Multa");
             }
             List<string> codigosValidos = new List<string>
             {
@@ -341,7 +341,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
             };
             if (!codigosValidos.Contains(EspecieTitulo))
             {
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " Posição : 148 a 149 {Campo Espécie de título}");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " Posição : 148 a 149 {Campo Espécie de título}");
             }
 
             // Valida IdentificacaoTipoInscricaoPagador
@@ -351,13 +351,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
             };
             if (!codigosValidosDocumento.Contains(IdentificacaoTipoInscricaoPagador))
             {
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " Posição : 219 a 220 {Campo Identificação do Tipo de Inscrição do Pagador}");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " Posição : 219 a 220 {Campo Identificação do Tipo de Inscrição do Pagador}");
             }
 
             // Valida CPF e CNPJ
             if (NumeroInscricaoPagador == "00000000000000")
             {
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistroTipo1.ToString() + " Posição : 221 a 234 {Campo Número de Inscrição do Pagador}");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistroTipo1 + " Posição : 221 a 234 {Campo Número de Inscrição do Pagador}");
             }
         }
         #endregion
@@ -388,34 +388,34 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         public void TrataErrosTipo2()
         {
             if (!util.EhNumerico(TipoRegistro))  // 001 a 001 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + TipoRegistro.ToString() + " TipoRegistro Posição : 001 a 001");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + TipoRegistro + " TipoRegistro Posição : 001 a 001 " + TipoRegistro);
             if (!util.EhNumerico(DataLimiteConcessaoDesconto))  // 322 a 327 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + DataLimiteConcessaoDesconto.ToString() + " DataLimiteConcessaoDesconto Posição : 322 a 327");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + DataLimiteConcessaoDesconto + " DataLimiteConcessaoDesconto Posição : 322 a 327 " + DataLimiteConcessaoDesconto);
             if (!util.EhNumerico(ValorDesconto2)) // 328 a 340 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorDesconto2.ToString() + " ValorDesconto2 Posição : 328 a 340");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ValorDesconto2 + " ValorDesconto2 Posição : 328 a 340 " + ValorDesconto2);
             if (!util.EhNumerico(DataLimiteDesconto3))  // 341 a 346 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + DataLimiteDesconto3.ToString() + " DataLimiteDesconto3 Posição : 341 a 346");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + DataLimiteDesconto3 + " DataLimiteDesconto3 Posição : 341 a 346 " + DataLimiteDesconto3);
             if (!util.EhNumerico(ValorDesconto3))  // 347 a 359 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorDesconto3.ToString() + " ValorDesconto3 Posição : 347 a 359");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ValorDesconto3 + " ValorDesconto3 Posição : 347 a 359 " + ValorDesconto3);
             if (!util.EhNumerico(Carteira))  // 367 a 369 (DDMMAA) >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Carteira.ToString() + " Carteira Posição : 367 a 369");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + Carteira + " Carteira Posição : 367 a 369 " + Carteira);
             if (!util.EhNumerico(Agencia))  // 370 a 374 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Agencia.ToString() + " Agencia Posição : 370 a 374");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + Agencia + " Agencia Posição : 370 a 374 " + Agencia);
             if (!util.EhNumerico(ContaCorrente2))  // 375 a 381 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ContaCorrente2.ToString() + " ContaCorrente Posição : 375 a 381");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ContaCorrente2 + " ContaCorrente Posição : 375 a 381 " + ContaCorrente);
             if (!util.EhNumerico(NossoNumero))  // 383 a 393 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NossoNumero.ToString() + " NossoNumero Posição : 383 a 393");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NossoNumero + " NossoNumero Posição : 383 a 393 " + NossoNumero);
             if (!util.EhNumerico(NumeroSequencialRegistro2))  // 395 a 400 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro2 + " NumeroSequencialRegistro Posição : 395 a 400 " + NumeroSequencialRegistro);
             // Verifica as mensagens se > zero , deve ter no mínimo 41 caracteres
             if (Mensagem1.Trim().Length < 41 && Mensagem1.Trim().Length > 0)
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " Mensagem1 Posição : 002 a 081 , menor que 41 caracteres");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro2 + " Mensagem1 Posição : 002 a 081 , menor que 41 caracteres");
             if (Mensagem2.Trim().Length < 41 && Mensagem2.Trim().Length > 0)
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " Mensagem2 Posição : 082 a 161 , menor que 41 caracteres");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro2 + " Mensagem2 Posição : 082 a 161 , menor que 41 caracteres");
             if (Mensagem3.Trim().Length < 41 && Mensagem3.Trim().Length > 0)
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " Mensagem3 Posição : 162 a 241 , menor que 41 caracteres");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro2 + " Mensagem3 Posição : 162 a 241 , menor que 41 caracteres");
             if (Mensagem4.Trim().Length < 41 && Mensagem4.Trim().Length > 0)
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " Mensagem4 Posição : 242 a 321 , menor que 41 caracteres");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro2 + " Mensagem4 Posição : 242 a 321 , menor que 41 caracteres");
         }
         #endregion
         #endregion
@@ -465,43 +465,43 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         public void TrataErrosTipo3()
         {
             if (!util.EhNumerico(IdentificacaoRegistro3))  // 001 a 001 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro3.ToString() + " IdentificacaoRegistro Posição : 001 a 001");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro3 + " IdentificacaoRegistro Posição : 001 a 001");
             if (!util.EhNumerico(CodigoCalculoRateio))  // 030 a 030 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoCalculoRateio.ToString() + " DataLimiteConcessaoDesconto2 Posição : 030 a 030");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoCalculoRateio + " DataLimiteConcessaoDesconto2 Posição : 030 a 030");
             if (!util.EhNumerico(TipoValorInformado)) // 031 a 031 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + TipoValorInformado.ToString() + " TipoValorInformado Posição : 031 a 031");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + TipoValorInformado + " TipoValorInformado Posição : 031 a 031");
             if (!util.EhNumerico(CodigoBanco1))  // 044 a 046 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco1.ToString() + " CodigoBanco1 Posição : 044 a 046");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoBanco1 + " CodigoBanco1 Posição : 044 a 046");
             if (!util.EhNumerico(CodigoAgencia1))  // 047 a 051 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia1.ToString() + " CodigoAgencia1 Posição : 047 a 051");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoAgencia1 + " CodigoAgencia1 Posição : 047 a 051");
             if (!util.EhNumerico(NumeroConta1))  // 053 a 064 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta1.ToString() + " NumeroConta1 Posição : 053 a 064");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroConta1 + " NumeroConta1 Posição : 053 a 064");
             if (!util.EhNumerico(ValorPercentualRateio1))  // 066 a 080
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio1.ToString() + " ValorPercentualRateio1 Posição : 066 a 080");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ValorPercentualRateio1 + " ValorPercentualRateio1 Posição : 066 a 080");
             if (!util.EhNumerico(Floating1))  // 158 a 160 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating1.ToString() + " Floating1 Posição : 158 a 160");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + Floating1 + " Floating1 Posição : 158 a 160");
             if (!util.EhNumerico(CodigoBanco2))  // 161 a 163 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco2.ToString() + " CodigoBanco2 Posição : 161 a 163");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoBanco2 + " CodigoBanco2 Posição : 161 a 163");
             if (!util.EhNumerico(CodigoAgencia2))  // 164 a 168 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia2.ToString() + " CodigoAgencia2 Posição : 164 a 168");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoAgencia2 + " CodigoAgencia2 Posição : 164 a 168");
             if (!util.EhNumerico(NumeroConta2))  // 170 a 181 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta2.ToString() + " NumeroConta2 Posição : 170 a 181");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroConta2 + " NumeroConta2 Posição : 170 a 181");
             if (!util.EhNumerico(ValorPercentualRateio2)) // 183 a 197 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio2.ToString() + " ValorPercentualRateio2 Posição : 183 a 197");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ValorPercentualRateio2 + " ValorPercentualRateio2 Posição : 183 a 197");
             if (!util.EhNumerico(Floating2))  // 275 a 277 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating2.ToString() + " Floating2 Posição : 275 a 277");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + Floating2 + " Floating2 Posição : 275 a 277");
             if (!util.EhNumerico(CodigoBanco3))  // 278 a 280
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco3.ToString() + " CodigoBanco3 Posição : 278 a 280");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoBanco3 + " CodigoBanco3 Posição : 278 a 280");
             if (!util.EhNumerico(CodigoAgencia3))  // 281 a 285
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia3.ToString() + " CodigoAgencia3 Posição : 281 a 285");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoAgencia3 + " CodigoAgencia3 Posição : 281 a 285");
             if (!util.EhNumerico(NumeroConta3))  // 287 a 298
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta3.ToString() + " NumeroConta3 Posição : 287 a 298");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroConta3 + " NumeroConta3 Posição : 287 a 298");
             if (!util.EhNumerico(ValorPercentualRateio3))  // 300 a 314 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio3.ToString() + " ValorPercentualRateio3 Posição : 300 a 314");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + ValorPercentualRateio3 + " ValorPercentualRateio3 Posição : 300 a 314");
             if (!util.EhNumerico(Floating3))  // 392 a 394 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating3.ToString() + " Floating3 Posição : 392 a 394");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + Floating3 + " Floating3 Posição : 392 a 394");
             if (!util.EhNumerico(NumeroSequencialRegistro3))  // 395 a 400
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro3.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
+                listaDeErros.Add(erroNome + linhaAtual + idNome + NumeroSequencialRegistro3 + " NumeroSequencialRegistro Posição : 395 a 400");
         }
         #endregion
         #endregion
