@@ -1,22 +1,25 @@
 ﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Servicos;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-
 
 namespace MeuProjeto.Controllers
 {
     [RoutePrefix("api/Arquivos")]
     public class ArquivosController : ApiController
     {
+        private readonly ExternalApiService externalApiService;
+
+        public ArquivosController()
+        {
+            this.externalApiService = new ExternalApiService();
+        }
+
         [HttpPost]
         [Route("ENVIAR_ARQUIVO")]
         public async Task<IHttpActionResult> UploadArquivoAsync()
@@ -26,6 +29,11 @@ namespace MeuProjeto.Controllers
 
             try
             {
+
+                // Acessa API externa
+                string apiExternaUrl = "https://jsonplaceholder.typicode.com/todos/1"; // Exemplo de API pública
+                string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
+
                 // Log inicial da requisição
                 File.AppendAllText(logPath, $"[{DateTime.Now}] Iniciando UploadArquivo\n");
 
@@ -68,7 +76,7 @@ namespace MeuProjeto.Controllers
 
                 // Chama o método de validação
                 // var validador = new ValidadorArquivo();
-                LeituraArquivoServico leituraArquivoServico = new LeituraArquivoServico();
+                LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
                 Util util = new Util();
 
 
@@ -100,22 +108,19 @@ namespace MeuProjeto.Controllers
 
                 File.AppendAllText(logPath, $"[{DateTime.Now}] Arquivo recebido com sucesso\n");
 
-                if (retornoValidacao.Count <= 0)
-                {
-                    // Aqui você pode processar o arquivo na memória conforme necessário
-                    return Ok(new
-                    {
-                        mensagem = "Arquivo recebido com sucesso!",
-                        nomeArquivo = file.FileName,
-                        tamanhoArquivo = fileBytes.Length,
-                        tipoArquivo = tipoArquivo,
-                        totalLinhas = totalLinhas
-                    });
-                }
-                else
+                if (retornoValidacao.Count > 0)
                 {
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
                 }
+
+                return Ok(new
+                {
+                    mensagem = "Arquivo recebido com sucesso!",
+                    nomeArquivo = file.FileName,
+                    tamanhoArquivo = fileBytes.Length,
+                    tipoArquivo = tipoArquivo,
+                    totalLinhas = totalLinhas
+                });
             }
             catch (Exception ex)
             {

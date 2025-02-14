@@ -161,7 +161,8 @@
     </Compile>
     <Compile Include="Models\Cobranca400.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servicos\LeituraArquivoServico.cs" />
+    <Compile Include="Servicos\ExternalApiService.cs" />
+    <Compile Include="Servicos\LeituraArquivoService.cs" />
     <Compile Include="Servicos\Util.cs" />
   </ItemGroup>
   <ItemGroup>

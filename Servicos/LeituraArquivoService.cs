@@ -1,12 +1,10 @@
 ﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Models;
-using BRD_API_NF_4_7_2_TRANSMISSAO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
-    public class LeituraArquivoServico
+    public class LeituraArquivoService
     {
         public Cobranca400 cobranca400 = new Cobranca400();
         public string ExtrairConteudo(string linha, int posicaoInicial, int posicaoFinal)
