@@ -1,11 +1,16 @@
 ﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Servicos;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+
 
 namespace MeuProjeto.Controllers
 {
@@ -108,7 +113,9 @@ namespace MeuProjeto.Controllers
                     });
                 }
                 else
-
+                {
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
+                }
             }
             catch (Exception ex)
             {
