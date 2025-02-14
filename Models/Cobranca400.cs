@@ -387,25 +387,25 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         }
         public void TrataErrosTipo2()
         {
-            if (!util.EhNumerico(IdentificacaoRegistro))  // 001 a 001 >>> N <<<
+            if (!util.EhNumerico(TipoRegistro))  // 001 a 001 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + TipoRegistro.ToString() + " TipoRegistro Posição : 001 a 001");
-            if (!util.EhNumerico(IdentificacaoArquivoRemessa))  // 322 a 327 >>> N <<<
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + DataLimiteConcessaoDesconto.ToString() + " DataLimiteConcessaoDesconto2 Posição : 322 a 327");
-            if (!util.EhNumerico(CodigoServico)) // 328 a 340 >>> N <<<
+            if (!util.EhNumerico(DataLimiteConcessaoDesconto))  // 322 a 327 >>> N <<<
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + DataLimiteConcessaoDesconto.ToString() + " DataLimiteConcessaoDesconto Posição : 322 a 327");
+            if (!util.EhNumerico(ValorDesconto2)) // 328 a 340 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorDesconto2.ToString() + " ValorDesconto2 Posição : 328 a 340");
-            if (!util.EhNumerico(CodigoEmpresa))  // 341 a 346 >>> N <<<
+            if (!util.EhNumerico(DataLimiteDesconto3))  // 341 a 346 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + DataLimiteDesconto3.ToString() + " DataLimiteDesconto3 Posição : 341 a 346");
-            if (!util.EhNumerico(NumeroBradescoCompensacao))  // 347 a 359 >>> N <<<
+            if (!util.EhNumerico(ValorDesconto3))  // 347 a 359 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorDesconto3.ToString() + " ValorDesconto3 Posição : 347 a 359");
-            if (!util.EhNumerico(DataGravacaoArquivo))  // 367 a 369 (DDMMAA) >>> N <<<
+            if (!util.EhNumerico(Carteira))  // 367 a 369 (DDMMAA) >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Carteira.ToString() + " Carteira Posição : 367 a 369");
-            if (!util.EhNumerico(NumeroSequencialRemessa))  // 370 a 374 >>> N <<<
+            if (!util.EhNumerico(Agencia))  // 370 a 374 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Agencia.ToString() + " Agencia Posição : 370 a 374");
-            if (!util.EhNumerico(NumeroSequencialRegistro))  // 375 a 381 >>> N <<<
+            if (!util.EhNumerico(ContaCorrente2))  // 375 a 381 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ContaCorrente2.ToString() + " ContaCorrente Posição : 375 a 381");
-            if (!util.EhNumerico(NumeroSequencialRegistro))  // 383 a 393 >>> N <<<
+            if (!util.EhNumerico(NossoNumero))  // 383 a 393 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NossoNumero.ToString() + " NossoNumero Posição : 383 a 393");
-            if (!util.EhNumerico(NumeroSequencialRegistro))  // 395 a 400 >>> N <<<
+            if (!util.EhNumerico(NumeroSequencialRegistro2))  // 395 a 400 >>> N <<<
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro2.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
             // Verifica as mensagens se > zero , deve ter no mínimo 41 caracteres
             if (Mensagem1.Trim().Length < 41 && Mensagem1.Trim().Length > 0)
@@ -467,39 +467,39 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
             if (!util.EhNumerico(IdentificacaoRegistro3))  // 001 a 001 
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + IdentificacaoRegistro3.ToString() + " IdentificacaoRegistro Posição : 001 a 001");
             if (!util.EhNumerico(CodigoCalculoRateio))  // 030 a 030 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoCalculoRateio.ToString() + " DataLimiteConcessaoDesconto2 Posição : 322 a 327");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoCalculoRateio.ToString() + " DataLimiteConcessaoDesconto2 Posição : 030 a 030");
             if (!util.EhNumerico(TipoValorInformado)) // 031 a 031 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + TipoValorInformado.ToString() + " ValorDesconto2 Posição : 328 a 340");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + TipoValorInformado.ToString() + " TipoValorInformado Posição : 031 a 031");
             if (!util.EhNumerico(CodigoBanco1))  // 044 a 046 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco1.ToString() + " DataLimiteDesconto3 Posição : 341 a 346");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco1.ToString() + " CodigoBanco1 Posição : 044 a 046");
             if (!util.EhNumerico(CodigoAgencia1))  // 047 a 051 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia1.ToString() + " ValorDesconto3 Posição : 347 a 359");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia1.ToString() + " CodigoAgencia1 Posição : 047 a 051");
             if (!util.EhNumerico(NumeroConta1))  // 053 a 064 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta1.ToString() + " Carteira Posição : 367 a 369");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta1.ToString() + " NumeroConta1 Posição : 053 a 064");
             if (!util.EhNumerico(ValorPercentualRateio1))  // 066 a 080
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio1.ToString() + " Agencia Posição : 370 a 374");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio1.ToString() + " ValorPercentualRateio1 Posição : 066 a 080");
             if (!util.EhNumerico(Floating1))  // 158 a 160 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating1.ToString() + " ContaCorrente Posição : 375 a 381");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating1.ToString() + " Floating1 Posição : 158 a 160");
             if (!util.EhNumerico(CodigoBanco2))  // 161 a 163 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco2.ToString() + " NossoNumero Posição : 383 a 393");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco2.ToString() + " CodigoBanco2 Posição : 161 a 163");
             if (!util.EhNumerico(CodigoAgencia2))  // 164 a 168 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia2.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia2.ToString() + " CodigoAgencia2 Posição : 164 a 168");
             if (!util.EhNumerico(NumeroConta2))  // 170 a 181 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta2.ToString() + " DataLimiteConcessaoDesconto2 Posição : 322 a 327");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta2.ToString() + " NumeroConta2 Posição : 170 a 181");
             if (!util.EhNumerico(ValorPercentualRateio2)) // 183 a 197 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio2.ToString() + " ValorDesconto2 Posição : 328 a 340");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio2.ToString() + " ValorPercentualRateio2 Posição : 183 a 197");
             if (!util.EhNumerico(Floating2))  // 275 a 277 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating2.ToString() + " DataLimiteDesconto3 Posição : 341 a 346");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating2.ToString() + " Floating2 Posição : 275 a 277");
             if (!util.EhNumerico(CodigoBanco3))  // 278 a 280
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco3.ToString() + " ValorDesconto3 Posição : 347 a 359");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoBanco3.ToString() + " CodigoBanco3 Posição : 278 a 280");
             if (!util.EhNumerico(CodigoAgencia3))  // 281 a 285
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia3.ToString() + " Carteira Posição : 367 a 369");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + CodigoAgencia3.ToString() + " CodigoAgencia3 Posição : 281 a 285");
             if (!util.EhNumerico(NumeroConta3))  // 287 a 298
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta3.ToString() + " Agencia Posição : 370 a 374");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroConta3.ToString() + " NumeroConta3 Posição : 287 a 298");
             if (!util.EhNumerico(ValorPercentualRateio3))  // 300 a 314 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio3.ToString() + " ContaCorrente Posição : 375 a 381");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + ValorPercentualRateio3.ToString() + " ValorPercentualRateio3 Posição : 300 a 314");
             if (!util.EhNumerico(Floating3))  // 392 a 394 
-                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating3.ToString() + " NossoNumero Posição : 383 a 393");
+                listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + Floating3.ToString() + " Floating3 Posição : 392 a 394");
             if (!util.EhNumerico(NumeroSequencialRegistro3))  // 395 a 400
                 listaDeErros.Add(erroNome + linhaAtual.ToString() + idNome + NumeroSequencialRegistro3.ToString() + " NumeroSequencialRegistro Posição : 395 a 400");
         }

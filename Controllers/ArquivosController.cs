@@ -48,9 +48,6 @@ namespace MeuProjeto.Controllers
                     fileBytes = binaryReader.ReadBytes(file.ContentLength);
                 }
 
-                // Log do tamanho do arquivo
-                //File.AppendAllText(logPath, $"[{DateTime.Now}] FileSize: {fileBytes.Length}\n");
-
                 LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
                 Util util = new Util();
 
@@ -71,18 +68,8 @@ namespace MeuProjeto.Controllers
                 List<string> retornoValidacao = await leituraArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo);
 
                 if (retornoValidacao.Count > 0)
-                {
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
-                }
-
-                return Ok(new
-                {
-                    mensagem = "Arquivo recebido com sucesso!",
-                    nomeArquivo = file.FileName,
-                    tamanhoArquivo = fileBytes.Length,
-                    tipoArquivo = tipoArquivo,
-                    totalLinhas = totalLinhas
-                });
+                return Ok("Arquivo recebido com sucesso!");
             }
             catch (Exception ex)
             {
