@@ -18,7 +18,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             }
             catch (HttpRequestException e)
             {
-                // Handle the exception as needed
                 return $"Request error: {e.Message}";
             }
         }
