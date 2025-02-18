@@ -1,0 +1,26 @@
+using System.Web.Http;
+using Swashbuckle.Application;
+
+namespace BRD_API_NF_4_7_2_TRANSMISSAO
+{
+    public class SwaggerConfig
+    {
+        public static void Register(HttpConfiguration config)
+        {
+            config.EnableSwagger(c =>
+            {
+                c.SingleApiVersion("v1", "BRD API")
+                 .Description("API Documentation")
+                 .TermsOfService("None");
+                 //.Contact(cc => cc
+                 //    .Name("Your Name")
+                 //    .Email("your.email@domain.com")
+                 //    .Url("http://www.yourwebsite.com"))
+                 //.License(lc => lc
+                 //    .Name("License")
+                 //    .Url("http://www.licenseurl.com"));
+            })
+            .EnableSwaggerUi();
+        }
+    }
+}

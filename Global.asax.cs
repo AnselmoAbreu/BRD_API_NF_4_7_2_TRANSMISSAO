@@ -15,6 +15,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO
         {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            //GlobalConfiguration.Configure(SwaggerConfig.Register); // Adicione esta linha, se não existir
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
