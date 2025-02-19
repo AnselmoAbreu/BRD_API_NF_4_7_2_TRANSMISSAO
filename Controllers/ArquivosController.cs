@@ -27,10 +27,7 @@ namespace MeuProjeto.Controllers
             try
             {
 
-                // Acessa API externa
-                string apiExternaUrl = "https://jsonplaceholder.typicode.com/todos/1"; // Exemplo de API pública
-                string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
-
+                
                 // Obtém o arquivo e o tipoArquivo do request
                 HttpPostedFile file = HttpContext.Current.Request.Files["arquivo"];
                 string tipoArquivo = HttpContext.Current.Request.Form["tipoArquivo"];
@@ -40,6 +37,11 @@ namespace MeuProjeto.Controllers
 
                 if (string.IsNullOrEmpty(tipoArquivo))
                     return BadRequest("O tipo de arquivo não foi especificado.");
+
+                // Acessa API externa
+                string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
+                string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
+
 
                 // Lê o arquivo em um byte array
                 byte[] fileBytes;
@@ -65,7 +67,7 @@ namespace MeuProjeto.Controllers
                     return BadRequest("Não é possível validar arquivos acima de 10 mil linhas. Por favor, insira um arquivo menor para uma validação completa.");
 
                 // Processa o arquivo
-                List<string> retornoValidacao = await leituraArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo);
+                List<string> retornoValidacao = await leituraArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo, resultadoApiExterna);
 
                 if (retornoValidacao.Count > 0)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));

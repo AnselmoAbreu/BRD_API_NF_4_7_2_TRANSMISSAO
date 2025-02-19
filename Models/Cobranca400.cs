@@ -465,9 +465,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         public void TrataErrosTipo3()
         {
             if (!util.EhNumerico(IdentificacaoRegistro3))  // 001 a 001 
-                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro3 + " IdentificacaoRegistro Posição : 001 a 001 - "+ IdentificacaoRegistro3);
+                listaDeErros.Add(erroNome + linhaAtual + idNome + IdentificacaoRegistro3 + " IdentificacaoRegistro Posição : 001 a 001 - " + IdentificacaoRegistro3);
             if (!util.EhNumerico(CodigoCalculoRateio))  // 030 a 030 
-                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoCalculoRateio + " CodigoCalculoRateio Posição : 030 a 030 - "+ CodigoCalculoRateio);
+                listaDeErros.Add(erroNome + linhaAtual + idNome + CodigoCalculoRateio + " CodigoCalculoRateio Posição : 030 a 030 - " + CodigoCalculoRateio);
             if (!util.EhNumerico(TipoValorInformado)) // 031 a 031 
                 listaDeErros.Add(erroNome + linhaAtual + idNome + TipoValorInformado + " TipoValorInformado Posição : 031 a 031 - " + TipoValorInformado);
             if (!util.EhNumerico(CodigoBanco1))  // 044 a 046 
@@ -507,7 +507,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Models
         #endregion
 
         #region Motor Inicial
-        public async Task<List<string>> ExecutaArquivoAsync(byte[] fileRows)
+        public async Task<List<string>> ExecutaArquivoAsync(byte[] fileRows, string layOut, string jsonRegras)
         {
             listaDeErros.Clear();
 
