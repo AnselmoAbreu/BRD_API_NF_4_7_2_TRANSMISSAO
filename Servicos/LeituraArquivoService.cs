@@ -11,7 +11,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public List<string> listaDeErros = new List<string>();
         Util util = new Util();
         bool erro = false;
+        #region Constantes
         const string registroZero = "RECORD0";
+        const string registroUm = "RECORD1";
+        const string registroDois = "RECORD2";
+        const string registroTres = "RECORD3";
+        const string registroSeis = "RECORD6";
+        const string registroSete = "RECORD7";
+        const string registroNove = "RECORD9";
+        #endregion
         public class KeyValueItem
         {
             public string Key { get; set; }
@@ -37,7 +45,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         {
 
             listaDeErros.Clear();
-
+            string valorAnterior = "";
             using (var memoryStream = new MemoryStream(fileRows))
             using (var reader = new StreamReader(memoryStream))
             {
@@ -58,14 +66,23 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         {
                                             erro = false;
                                             string[] parametro = keyValueItem.Value.Split(':');
-                                            // parametro vindo do json = "0:1:N:0:U"
-
-                                            int posicaoInicial = Convert.ToInt32(parametro[0]); // posicao 1
+                                            //------------------------------------------------------------------------
+                                            // : Posição inicial
+                                            // : Posição final
+                                            // : Tipo
+                                            // : Conteúdo (R = REQUERIDO / V = VAZIO)
+                                            // : Nível (0 = PAI / 1 = FILHO)
+                                            // : Posição no manual 
+                                            // : Valor fixo
+                                            //------------------------------------------------------------------------
+                                            int posicaoInicial = Convert.ToInt32(parametro[0]); // Posicao inicial
                                             int tamanho = Convert.ToInt32(parametro[1]); // Tamanho
                                             string tipo = parametro[2]; // Tipo = N / C
                                             string conteudo = parametro[3]; // (R = REQUERIDO / V = VAZIO)
                                             int parentesco = Convert.ToInt32(parametro[4]); // (0 = PAI / 1 = FILHO)
-                                            string posicaoManual = parametro[5];//Posição no manual 
+                                            string posicaoManual = parametro[5]; //Posição no manual 
+                                            string valorFixo = parametro[6]; //Valor Fixo
+                                            //------------------------------------------------------------------------
                                             var leitura = linha.Substring(posicaoInicial, tamanho);
                                             if (tipo == "N" && !util.EhNumerico(leitura))
                                                 erro = true;
@@ -74,6 +91,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             if (tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
                                                 erro = true;
                                             if (tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
+                                                erro = true;
+                                            if (valorFixo != "" && leitura.Trim() != valorFixo)
                                                 erro = true;
                                             if (erro)
                                                 listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura));
@@ -84,6 +103,59 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                             }
                             break;
                         case "1":
+                            if (layout == "COB400") // Tipo de arquivo
+                            {
+                                List<RootItem> items = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
+                                foreach (var rootItem in items) // Loop dentro do Json
+                                {
+                                    if (rootItem.Key == registroUm)
+                                    {
+                                        foreach (var keyValueItem in rootItem.Value)
+                                        {
+                                            erro = false;
+                                            string[] parametro = keyValueItem.Value.Split(':');
+                                            //------------------------------------------------------------------------
+                                            // : Posição inicial
+                                            // : Posição final
+                                            // : Tipo
+                                            // : Conteúdo (R = REQUERIDO / V = VAZIO)
+                                            // : Nível (0 = PAI / 1 = FILHO)
+                                            // : Posição no manual 
+                                            // : Valor fixo
+                                            //------------------------------------------------------------------------
+                                            int posicaoInicial = Convert.ToInt32(parametro[0]); // Posicao inicial
+                                            int tamanho = Convert.ToInt32(parametro[1]); // Tamanho
+                                            string tipo = parametro[2]; // Tipo = N / C
+                                            string conteudo = parametro[3]; // (R = REQUERIDO / V = VAZIO)
+                                            int parentesco = Convert.ToInt32(parametro[4]); // (0 = PAI / 1 = FILHO)
+                                            string posicaoManual = parametro[5]; //Posição no manual 
+                                            string valorFixo = parametro[6]; //Valor Fixo
+                                            //----------------------------------------
+                                            var leitura = linha.Substring(posicaoInicial, tamanho);
+                                            if (tipo == "N" && !util.EhNumerico(leitura))
+                                                erro = true;
+                                            if (tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
+                                                erro = true;
+                                            if (tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
+                                                erro = true;
+                                            if (tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
+                                                erro = true;
+                                            if (valorFixo != "" && leitura.Trim() != valorFixo)
+                                                erro = true;
+                                            if (keyValueItem.Key == "CampoMulta")
+                                                valorAnterior = leitura;
+                                            if (keyValueItem.Key == "PercentualMulta")
+                                            {
+                                                if (valorAnterior == "2" && (!util.EhNumerico(leitura) || leitura.Trim().Length == 0))
+                                                    erro = true;
+                                            }
+                                            if (erro)
+                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura));
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
                             break;
                         case "2":
                             break;
