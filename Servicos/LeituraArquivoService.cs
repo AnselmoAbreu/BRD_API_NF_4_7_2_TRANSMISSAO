@@ -10,9 +10,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
     {
         public List<string> listaDeErros = new List<string>();
         Util util = new Util();
-        const string erroNome = "Erro na linha : ";
-        const string idNome = " Id Registro : ";
-
+        bool erro = false;
+        const string registroZero = "RECORD0";
         public class KeyValueItem
         {
             public string Key { get; set; }
@@ -43,22 +42,23 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             using (var reader = new StreamReader(memoryStream))
             {
                 string linha;
-                while ((linha = await reader.ReadLineAsync()) != null)
+                while ((linha = await reader.ReadLineAsync()) != null) // Loop dentro do arquivo
                 {
                     switch (linha.Substring(0, 1))
                     {
                         case "0":
-                            if (layout == "COB400")
+                            if (layout == "COB400") // Tipo de arquivo
                             {
                                 List<RootItem> items = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
-                                foreach (var rootItem in items)
+                                foreach (var rootItem in items) // Loop dentro do Json
                                 {
-                                    if (rootItem.Key == "RECORD0")
+                                    if (rootItem.Key == registroZero)
                                     {
                                         foreach (var keyValueItem in rootItem.Value)
                                         {
+                                            erro = false;
                                             string[] parametro = keyValueItem.Value.Split(':');
-                                            // parametro = "0:1:N:0:U"
+                                            // parametro vindo do json = "0:1:N:0:U"
 
                                             int posicaoInicial = Convert.ToInt32(parametro[0]); // posicao 1
                                             int tamanho = Convert.ToInt32(parametro[1]); // Tamanho
@@ -68,21 +68,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             string posicaoManual = parametro[5];//Posição no manual 
                                             var leitura = linha.Substring(posicaoInicial, tamanho);
                                             if (tipo == "N" && !util.EhNumerico(leitura))
-                                            {
-                                                listaDeErros.Add(erroNome + linha.Substring(0, 1) + idNome + keyValueItem.Key + " Posição : " + posicaoManual + " Conteúdo = " + leitura);
-                                            }
+                                                erro = true;
                                             if (tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
-                                            {
-                                                listaDeErros.Add(erroNome + linha.Substring(0, 1) + idNome + keyValueItem.Key + " Posição : " + posicaoManual + " Conteúdo = " + leitura);
-                                            }
+                                                erro = true;
                                             if (tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
-                                            {
-                                                listaDeErros.Add(erroNome + linha.Substring(0, 1) + idNome + keyValueItem.Key + " Posição : " + posicaoManual + " Conteúdo = " + leitura);
-                                            }
+                                                erro = true;
                                             if (tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
-                                            {
-                                                listaDeErros.Add(erroNome + linha.Substring(0, 1) + idNome + keyValueItem.Key + " Posição : " + posicaoManual + " Conteúdo = " + leitura);
-                                            }
+                                                erro = true;
+                                            if (erro)
+                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura));
                                         }
                                         break;
                                     }
@@ -101,6 +95,12 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 }
             }
             return listaDeErros;
+        }
+
+        public string RetornaErro(string parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura)
+        {
+            string retorno = "Erro na linha : " + parametroLinha + " - Campo : " + parametroKey + " - Posição : " + parametroPosicao + " - Conteúdo = " + parametroLeitura;
+            return retorno;
         }
     }
 }
