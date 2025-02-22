@@ -71,7 +71,7 @@ namespace MeuProjeto.Controllers
 
                 if (retornoValidacao.Count > 0)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
-                return Ok("Arquivo recebido com sucesso!");
+                return Ok("Arquivo processado com sucesso!");
             }
             catch (Exception ex)
             {

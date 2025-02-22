@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
@@ -68,12 +70,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             string[] parametro = keyValueItem.Value.Split(':');
                                             //------------------------------------------------------------------------
                                             // : Posição inicial
-                                            // : Posição final
+                                            // : Tamanho
                                             // : Tipo
                                             // : Conteúdo (R = REQUERIDO / V = VAZIO)
                                             // : Nível (0 = PAI / 1 = FILHO)
                                             // : Posição no manual 
                                             // : Valor fixo
+                                            // : Mensagem
+                                            // : Campo Data (D)
                                             //------------------------------------------------------------------------
                                             int posicaoInicial = Convert.ToInt32(parametro[0]); // Posicao inicial
                                             int tamanho = Convert.ToInt32(parametro[1]); // Tamanho
@@ -82,20 +86,30 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             int parentesco = Convert.ToInt32(parametro[4]); // (0 = PAI / 1 = FILHO)
                                             string posicaoManual = parametro[5]; //Posição no manual 
                                             string valorFixo = parametro[6]; //Valor Fixo
+                                            string mensagem = parametro[7]; //Mensagem
+                                            bool campoData = parametro[8] == "D" ? true : false; //Mensagem
+
                                             //------------------------------------------------------------------------
                                             var leitura = linha.Substring(posicaoInicial, tamanho);
-                                            if (tipo == "N" && !util.EhNumerico(leitura))
+
+                                            if (!erro && !util.EhNumerico(leitura) && campoData)
+                                            {
+                                                bool dataValida = ValidarData(leitura);
+                                                if (!dataValida)
+                                                    erro = true;
+                                            }
+                                            if (!erro && tipo == "N" && !util.EhNumerico(leitura))
                                                 erro = true;
-                                            if (tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
+                                            if (!erro && tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
                                                 erro = true;
-                                            if (tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
+                                            if (!erro && tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
                                                 erro = true;
-                                            if (tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
+                                            if (!erro && tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
                                                 erro = true;
-                                            if (valorFixo != "" && leitura.Trim() != valorFixo)
+                                            if (!erro && valorFixo != "" && leitura.Trim() != valorFixo)
                                                 erro = true;
                                             if (erro)
-                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura));
+                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura, mensagem));
                                         }
                                         break;
                                     }
@@ -103,7 +117,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                             }
                             break;
                         case "1":
-                            if (layout == "COB400") // Tipo de arquivo
+                            if (layout == "COB4000") // Tipo de arquivo
                             {
                                 List<RootItem> items = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
                                 foreach (var rootItem in items) // Loop dentro do Json
@@ -114,43 +128,76 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         {
                                             erro = false;
                                             string[] parametro = keyValueItem.Value.Split(':');
-                                            //------------------------------------------------------------------------
+                                            //-------------------------------------------------------
                                             // : Posição inicial
-                                            // : Posição final
+                                            // : Tamanho
                                             // : Tipo
-                                            // : Conteúdo (R = REQUERIDO / V = VAZIO)
-                                            // : Nível (0 = PAI / 1 = FILHO)
-                                            // : Posição no manual 
+                                            // : Obrigatório (R = REQUERIDO / V = VAZIO / Z = ZERADO)
+                                            // : Parentesco (0 = PAI / 1 = FILHO)
+                                            // : Posição no manual do bradesco
                                             // : Valor fixo
-                                            //------------------------------------------------------------------------
+                                            // : Mensagem própria
+                                            // : Campo Data (D)
+                                            //-------------------------------------------------------
                                             int posicaoInicial = Convert.ToInt32(parametro[0]); // Posicao inicial
                                             int tamanho = Convert.ToInt32(parametro[1]); // Tamanho
                                             string tipo = parametro[2]; // Tipo = N / C
-                                            string conteudo = parametro[3]; // (R = REQUERIDO / V = VAZIO)
+                                            string conteudo = parametro[3]; // (R = REQUERIDO / V = VAZIO / Z = ZERADO)
                                             int parentesco = Convert.ToInt32(parametro[4]); // (0 = PAI / 1 = FILHO)
                                             string posicaoManual = parametro[5]; //Posição no manual 
                                             string valorFixo = parametro[6]; //Valor Fixo
-                                            //----------------------------------------
-                                            var leitura = linha.Substring(posicaoInicial, tamanho);
-                                            if (tipo == "N" && !util.EhNumerico(leitura))
-                                                erro = true;
-                                            if (tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
-                                                erro = true;
-                                            if (tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
-                                                erro = true;
-                                            if (tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
-                                                erro = true;
-                                            if (valorFixo != "" && leitura.Trim() != valorFixo)
-                                                erro = true;
-                                            if (keyValueItem.Key == "CampoMulta")
+                                            string mensagem = parametro[7]; //Mensagem
+                                            bool campoData = parametro[8] == "D" ? true : false; //Mensagem
+
+                                            //----------------------------------------------------------------------------------
+                                            var leitura = linha.Substring(posicaoInicial, tamanho); // "corta" o campo na string
+
+                                            if (tipo == "N")
+                                            {
+                                                // Se o campo é numérico e é um campo data
+                                                if (!erro && !util.EhNumerico(leitura) && campoData)
+                                                {
+                                                    bool dataValida = ValidarData(leitura);
+                                                    if (!dataValida)
+                                                        erro = true;
+                                                }
+                                                // Se o campo é numérico e o conteúdo não é numérico
+                                                if (!erro && !util.EhNumerico(leitura))
+                                                    erro = true;
+
+                                                // Se o campo é numérico , obrigatório e o conteúdo = 0
+                                                if (!erro && util.EhNumerico(leitura) && conteudo == "R" && Convert.ToDecimal(leitura) == 0)
+                                                    erro = true;
+
+                                                // Se o campo é numérico , possui valor fixo e o conteúdo tem uma virgula
+                                                if (!erro && valorFixo.Contains(","))
+                                                {
+                                                    bool contem = valorFixo.Split(',').Contains(leitura);
+                                                    if (!contem)
+                                                        erro = true;
+                                                }
+
+                                                // Se o campo é numérico , possui valor fixo e o conteúdo é diferente
+                                                if (!erro && valorFixo != "" && !valorFixo.Contains(",") && leitura.Trim() != valorFixo)
+                                                    erro = true;
+                                            }
+                                            if (tipo == "G")
+                                            {
+                                                if (!erro && tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
+                                                    erro = true;
+                                                if (!erro && tipo == "C" && conteudo == "V" && leitura.Trim().Length > 0)
+                                                    erro = true;
+                                            }
+
+                                            if (!erro && keyValueItem.Key == "CampoMulta")
                                                 valorAnterior = leitura;
                                             if (keyValueItem.Key == "PercentualMulta")
                                             {
-                                                if (valorAnterior == "2" && (!util.EhNumerico(leitura) || leitura.Trim().Length == 0))
+                                                if (!erro && valorAnterior == "2" && (!util.EhNumerico(leitura) || leitura.Trim().Length == 0))
                                                     erro = true;
                                             }
                                             if (erro)
-                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura));
+                                                listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura, mensagem));
                                         }
                                         break;
                                     }
@@ -169,10 +216,23 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             return listaDeErros;
         }
 
-        public string RetornaErro(string parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura)
+        public string RetornaErro(string parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
         {
-            string retorno = "Erro na linha : " + parametroLinha + " - Campo : " + parametroKey + " - Posição : " + parametroPosicao + " - Conteúdo = " + parametroLeitura;
+            string retorno = "Erro linha : " + parametroLinha + " - Campo : " + parametroKey + " - Posição : " + parametroPosicao + " - Conteúdo = " + parametroLeitura + " - (" + parametroMensagem + ")";
             return retorno;
+        }
+
+        static bool ValidarData(string data)
+        {
+            if (data.Length != 6) return false; // Verifica se a string tem exatamente 6 caracteres
+
+            // Converte para o formato "ddMMyy"
+            return DateTime.TryParseExact(
+                data,
+                "ddMMyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out _);
         }
     }
 }
