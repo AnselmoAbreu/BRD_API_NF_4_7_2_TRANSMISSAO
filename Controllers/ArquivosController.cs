@@ -7,6 +7,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MeuProjeto.Controllers
 {
@@ -27,7 +30,6 @@ namespace MeuProjeto.Controllers
             try
             {
 
-                
                 // Obtém o arquivo e o tipoArquivo do request
                 HttpPostedFile file = HttpContext.Current.Request.Files["arquivo"];
                 string tipoArquivo = HttpContext.Current.Request.Form["tipoArquivo"];
@@ -42,6 +44,16 @@ namespace MeuProjeto.Controllers
                 string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
                 string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
 
+
+                // Verifica se o resultado da API externa é um JSON válido
+                try
+                {
+                    JsonDocument.Parse(resultadoApiExterna);
+                }
+                catch (System.Text.Json.JsonException)
+                {
+                    return BadRequest("O resultado da API de REGRAS não é um JSON válido.");
+                }
 
                 // Lê o arquivo em um byte array
                 byte[] fileBytes;
@@ -75,7 +87,8 @@ namespace MeuProjeto.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return BadRequest("Erro API Transmissão : " + ex.InnerException);
+
             }
         }
     }

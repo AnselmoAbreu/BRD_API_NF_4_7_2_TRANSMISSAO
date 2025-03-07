@@ -137,7 +137,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             // : Posição no manual do bradesco
                                             // : Valor fixo
                                             // : Mensagem própria
-                                            // : Campo Data (D)
+                                            // : Data (D)
                                             //-------------------------------------------------------
                                             int posicaoInicial = Convert.ToInt32(parametro[0]); // Posicao inicial
                                             int tamanho = Convert.ToInt32(parametro[1]); // Tamanho

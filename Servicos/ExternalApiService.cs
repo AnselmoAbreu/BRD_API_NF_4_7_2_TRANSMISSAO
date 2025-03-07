@@ -5,10 +5,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
 	public class ExternalApiService
 	{
-        private static readonly HttpClient client = new HttpClient();
+        //private static readonly HttpClient client = new HttpClient();
 
         public async Task<string> CallExternalApiAsync(string apiUrl)
         {
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            HttpClient client = new HttpClient(handler);
             try
             {
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
