@@ -111,16 +111,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         private void ValidarHeaderArquivo(string linha, int linhaIndex)
         {
-            ValidarConteudoCampo(linha, linhaIndex, 8, 1, "N", "0");  // Tipo de registro fixo
-            ValidarConteudoCampo(linha, linhaIndex, 1, 3, "N");  // Código do banco
-            ValidarConteudoCampo(linha, linhaIndex, 144, 8, "N");  // Data de geração
+            ValidarConteudoCampo(linha, linhaIndex, 1, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 8, 1, "N", "0"); // Tipo de registro fixo
+            ValidarConteudoCampo(linha, linhaIndex, 144, 8, "N"); // Data de geração
         }
 
         private void ValidarHeaderLote(string linha, int linhaIndex)
         {
-            ValidarConteudoCampo(linha, linhaIndex, 8, 1, "N", "1");
+            ValidarConteudoCampo(linha, linhaIndex, 8, 1, "N", "1"); // Tipo de registro fixo
         }
-
 
         private void ValidarTrailerLote(string linha, int linhaIndex)
         {
@@ -143,6 +142,20 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             valorTotalDeclarado = ExtrairDecimal(linha, 42, 16);
         }
 
+        private void ValidarConteudoCampo(string linha, int linhaIndex, int posicao, int tamanho, string tipo, string valorDefault = "")
+        {
+            string conteudo = ExtrairConteudo(linha, posicao, tamanho);
+
+            if (tipo == "N" && !conteudo.PadLeft(tamanho, '0').Equals(conteudo))
+                listaDeErros.Add($"Erro na linha {linhaIndex}: Campo numérico deve estar alinhado à direita com zeros na posição {posicao}.");
+
+            if (tipo == "A" && !conteudo.PadRight(tamanho, ' ').Equals(conteudo))
+                listaDeErros.Add($"Erro na linha {linhaIndex}: Campo alfanumérico deve estar alinhado à esquerda com espaços à direita na posição {posicao}.");
+
+            if (!string.IsNullOrEmpty(valorDefault) && conteudo.Trim() != valorDefault)
+                listaDeErros.Add($"Erro na linha {linhaIndex}: Campo na posição {posicao} deveria ter o valor '{valorDefault}', mas foi encontrado '{conteudo.Trim()}'.");
+        }
+
         private void ValidarTotais()
         {
             if (totalLotesProcessados != totalLotesDeclarado)
@@ -154,5 +167,100 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             if (valorTotalCalculado != valorTotalDeclarado)
                 listaDeErros.Add($"Erro: Valor total calculado ({valorTotalCalculado}) diferente do declarado no trailer ({valorTotalDeclarado}).");
         }
+        private decimal ExtrairDecimal(string linha, int posicao, int tamanho)
+        {
+            string valor = ExtrairConteudo(linha, posicao, tamanho).Trim();
+            if (decimal.TryParse(valor, NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                                 CultureInfo.InvariantCulture, out decimal resultado))
+            {
+                return resultado;
+            }
+            return 0m;
+        }
+
+        private void ValidarDetalhe(string linha, int linhaIndex)
+        {
+            string segmento = ExtrairConteudo(linha, 13, 1);
+            switch (segmento)
+            {
+                case "A":
+                    ValidarSegmentoA(linha, linhaIndex);
+                    break;
+                case "B":
+                    ValidarSegmentoB(linha, linhaIndex);
+                    break;
+                case "J":
+                    ValidarSegmentoJ(linha, linhaIndex);
+                    break;
+                case "O":
+                    ValidarSegmentoO(linha, linhaIndex);
+                    break;
+                case "N":
+                    ValidarSegmentoN(linha, linhaIndex);
+                    break;
+                case "Z":
+                    ValidarSegmentoZ(linha, linhaIndex);
+                    break;
+                case "W":
+                    ValidarSegmentoW(linha, linhaIndex);
+                    break;
+                case "Y":
+                    ValidarSegmentoY02(linha, linhaIndex);
+                    break;
+                default:
+                    listaDeErros.Add($"Erro na linha {linhaIndex}: Segmento '{segmento}' não reconhecido.");
+                    break;
+            }
+        }
+        private void ValidarSegmentoA(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 120, 13, "N"); // Valor do pagamento
+            ValidarConteudoCampo(linha, linhaIndex, 94, 8, "N"); // Data de pagamento
+        }
+
+        private void ValidarSegmentoB(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 126, 2, "A"); // Estado do favorecido
+            ValidarConteudoCampo(linha, linhaIndex, 32, 14, "N"); // CPF/CNPJ do favorecido
+        }
+
+        private void ValidarSegmentoJ(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 18, 44, "N"); // Código de barras
+            ValidarConteudoCampo(linha, linhaIndex, 92, 8, "N"); // Data de vencimento
+            ValidarConteudoCampo(linha, linhaIndex, 100, 13, "N"); // Valor do título
+        }
+
+        private void ValidarSegmentoO(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 18, 44, "N"); // Código de barras do tributo
+            ValidarConteudoCampo(linha, linhaIndex, 108, 13, "N"); // Valor do tributo
+        }
+        private void ValidarSegmentoN(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 50, 14, "N"); // Número de referência do tributo
+            ValidarConteudoCampo(linha, linhaIndex, 65, 8, "N"); // Data de pagamento
+        }
+        private void ValidarSegmentoZ(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 5, 8, "A"); // Código da autenticação
+            ValidarConteudoCampo(linha, linhaIndex, 20, 10, "N"); // Data da autenticação
+        }
+        private void ValidarSegmentoW(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 92, 10, "N"); // Identificação do tributo
+        }
+        private void ValidarSegmentoY02(string linha, int linhaIndex)
+        {
+            ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
+            ValidarConteudoCampo(linha, linhaIndex, 14, 5, "N"); // Código da alegação
+            ValidarConteudoCampo(linha, linhaIndex, 50, 15, "A"); // Detalhes da alegação
+        }
+
     }
 }
