@@ -40,7 +40,7 @@ namespace MeuProjeto.Controllers
                 if (string.IsNullOrEmpty(tipoArquivo))
                     return BadRequest("O tipo de arquivo não foi especificado.");
 
-                // Acessa API externa
+                // Acessa API de Regras
                 string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
                 string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
 
