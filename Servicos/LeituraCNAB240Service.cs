@@ -10,17 +10,18 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
     public class LeituraCNAB240Service
     {
-        public List<string> listaDeErros = new List<string>();
-        Util util = new Util();
-        bool erro = false;
-
         #region Constantes CNAB 240
-        const string REGISTRO_HEADER_ARQUIVO = "0";
-        const string REGISTRO_HEADER_LOTE = "1";
-        const string REGISTRO_DETALHE = "3";
-        const string REGISTRO_TRAILER_LOTE = "5";
-        const string REGISTRO_TRAILER_ARQUIVO = "9";
+        private const string REGISTRO_HEADER_ARQUIVO = "0";
+        private const string REGISTRO_HEADER_LOTE = "1";
+        private const string REGISTRO_DETALHE = "3";
+        private const string REGISTRO_TRAILER_LOTE = "5";
+        private const string REGISTRO_TRAILER_ARQUIVO = "9";
         #endregion
+
+        #region Campos e Propriedades
+        public List<string> listaDeErros = new List<string>();
+        private Util util = new Util();
+        private bool erro = false;
 
         private int totalLotesProcessados = 0;
         private int totalRegistrosProcessados = 0;
@@ -30,7 +31,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         private decimal valorTotalDeclarado = 0m;
         private decimal valorTotalLoteAtual = 0m;
         private int totalRegistrosLoteAtual = 0;
+        #endregion
 
+        #region Métodos Públicos
         public string ExtrairConteudo(string linha, int posicaoInicial, int tamanho)
         {
             if (string.IsNullOrEmpty(linha) || posicaoInicial < 0 || posicaoInicial + tamanho > linha.Length)
@@ -72,7 +75,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             ValidarTotais();
             return listaDeErros;
         }
+        #endregion
 
+        #region Métodos Privados de Validação
         private void ValidarRegistro(string linha, string tipoRegistro, int linhaIndex)
         {
             erro = false;
@@ -167,6 +172,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             if (valorTotalCalculado != valorTotalDeclarado)
                 listaDeErros.Add($"Erro: Valor total calculado ({valorTotalCalculado}) diferente do declarado no trailer ({valorTotalDeclarado}).");
         }
+
         private decimal ExtrairDecimal(string linha, int posicao, int tamanho)
         {
             string valor = ExtrairConteudo(linha, posicao, tamanho).Trim();
@@ -212,6 +218,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                     break;
             }
         }
+
         private void ValidarSegmentoA(string linha, int linhaIndex)
         {
             ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
@@ -239,28 +246,32 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             ValidarConteudoCampo(linha, linhaIndex, 18, 44, "N"); // Código de barras do tributo
             ValidarConteudoCampo(linha, linhaIndex, 108, 13, "N"); // Valor do tributo
         }
+
         private void ValidarSegmentoN(string linha, int linhaIndex)
         {
             ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
             ValidarConteudoCampo(linha, linhaIndex, 50, 14, "N"); // Número de referência do tributo
             ValidarConteudoCampo(linha, linhaIndex, 65, 8, "N"); // Data de pagamento
         }
+
         private void ValidarSegmentoZ(string linha, int linhaIndex)
         {
             ValidarConteudoCampo(linha, linhaIndex, 5, 8, "A"); // Código da autenticação
             ValidarConteudoCampo(linha, linhaIndex, 20, 10, "N"); // Data da autenticação
         }
+
         private void ValidarSegmentoW(string linha, int linhaIndex)
         {
             ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
             ValidarConteudoCampo(linha, linhaIndex, 92, 10, "N"); // Identificação do tributo
         }
+
         private void ValidarSegmentoY02(string linha, int linhaIndex)
         {
             ValidarConteudoCampo(linha, linhaIndex, 3, 3, "N"); // Código do banco
             ValidarConteudoCampo(linha, linhaIndex, 14, 5, "N"); // Código da alegação
             ValidarConteudoCampo(linha, linhaIndex, 50, 15, "A"); // Detalhes da alegação
         }
-
+        #endregion
     }
 }
