@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Text.Json;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MeuProjeto.Controllers
 {
@@ -83,6 +81,7 @@ namespace MeuProjeto.Controllers
 
                 if (retornoValidacao.Count > 0)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
+                
                 return Ok("Arquivo processado com sucesso!");
             }
             catch (Exception ex)

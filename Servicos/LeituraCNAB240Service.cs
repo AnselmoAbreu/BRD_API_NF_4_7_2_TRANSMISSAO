@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
