@@ -51,7 +51,7 @@ namespace MeuProjeto.Controllers
                 // Verifica a extensão do arquivo
                 string extensao = Path.GetExtension(file.FileName).ToLower();
 
-                if (!util.VerificaExtensao(extensao))
+                if (!util.VerificarExtensao(extensao))
                     return BadRequest("Arquivo com extensão inválida. Extensões permitidas: .rem, .ret, .txt, .rst ou .dat");
 
                 // Verifica a quantidade de linhas do arquivo

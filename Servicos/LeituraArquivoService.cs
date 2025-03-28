@@ -92,15 +92,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             //------------------------------------------------------------------------
                                             var leitura = linha.Substring(posicaoInicial, tamanho);
 
-                                            if (!erro && !util.EhNumerico(leitura) && campoData)
+                                            if (!erro && !util.VerificarSeNumerico(leitura) && campoData)
                                             {
                                                 bool dataValida = ValidarData(leitura);
                                                 if (!dataValida)
                                                     erro = true;
                                             }
-                                            if (!erro && tipo == "N" && !util.EhNumerico(leitura))
+                                            if (!erro && tipo == "N" && !util.VerificarSeNumerico(leitura))
                                                 erro = true;
-                                            if (!erro && tipo == "N" && util.EhNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
+                                            if (!erro && tipo == "N" && util.VerificarSeNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
                                                 erro = true;
                                             if (!erro && tipo == "C" && conteudo == "R" && leitura.Trim().Length == 0)
                                                 erro = true;
@@ -155,18 +155,18 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                             if (tipo == "N")
                                             {
                                                 // Se o campo é numérico e é um campo data
-                                                if (!erro && !util.EhNumerico(leitura) && campoData)
+                                                if (!erro && !util.VerificarSeNumerico(leitura) && campoData)
                                                 {
                                                     bool dataValida = ValidarData(leitura);
                                                     if (!dataValida)
                                                         erro = true;
                                                 }
                                                 // Se o campo é numérico e o conteúdo não é numérico
-                                                if (!erro && !util.EhNumerico(leitura))
+                                                if (!erro && !util.VerificarSeNumerico(leitura))
                                                     erro = true;
 
                                                 // Se o campo é numérico , obrigatório e o conteúdo = 0
-                                                if (!erro && util.EhNumerico(leitura) && conteudo == "R" && Convert.ToDecimal(leitura) == 0)
+                                                if (!erro && util.VerificarSeNumerico(leitura) && conteudo == "R" && Convert.ToDecimal(leitura) == 0)
                                                     erro = true;
 
                                                 // Se o campo é numérico , possui valor fixo e o conteúdo tem uma virgula
@@ -193,7 +193,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                                 valorAnterior = leitura;
                                             if (keyValueItem.Key == "PercentualMulta")
                                             {
-                                                if (!erro && valorAnterior == "2" && (!util.EhNumerico(leitura) || leitura.Trim().Length == 0))
+                                                if (!erro && valorAnterior == "2" && (!util.VerificarSeNumerico(leitura) || leitura.Trim().Length == 0))
                                                     erro = true;
                                             }
                                             if (erro)

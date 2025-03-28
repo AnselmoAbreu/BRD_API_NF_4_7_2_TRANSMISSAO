@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -6,12 +7,12 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
     public class Util
     {
-        public string AdicionaZeros(decimal valor, int tamanho) // Preenche com zeros a esquerda
+        public string AdicionarZeros(decimal valor, int tamanho) // Preenche com zeros a esquerda
         {
             return valor.ToString().PadLeft(tamanho, '0');
         }
 
-        public bool VerificaExtensao(string extensao)
+        public bool VerificarExtensao(string extensao)
         {
             var extensoesPermitidas = new HashSet<string> { ".rem", ".ret", ".txt", ".rst", ".dat" };
             if (!extensoesPermitidas.Contains(extensao))
@@ -21,13 +22,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             return true;
         }
 
-        public string Espacos(int tamanho)
+        public string InserirEspacos(int tamanho)
         {
             var branco = new string(' ', tamanho);
             return branco;
         }
 
-        public bool EhNumerico(string valor)
+        public bool VerificarSeNumerico(string valor)
         {
             return decimal.TryParse(valor, out _);
         }
@@ -107,6 +108,41 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 }
             }
             return retornoErro;
+        }
+
+        public List<string> MontarTabelaOcorrenciasMultipag()
+        {
+            // Criando a lista de elementos
+            List<string> listaElementos = new List<string>
+            {
+                "00", "01", "02", "03", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH",
+                "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AT", "AU",
+                "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG",
+                "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "CA", "CB",
+                "CC", "CD", "CE", "CF", "CG", "CH", "CI", "CJ", "CK", "CL", "CM", "CN",
+                "CO", "CP", "HA", "HB", "HC", "HD", "HE", "HF", "HG", "HH", "HI", "HJ",
+                "HK", "HL", "HM", "HN", "HO", "HP", "HQ", "HR", "HS", "HT", "HU", "HV",
+                "HW", "HX", "HY", "HZ", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8",
+                "H9", "IA", "PA", "PB", "PC", "PD", "PE", "PF", "PG", "PH", "PI", "PJ",
+                "PK", "PL", "PM", "PN", "TA", "YA", "YB", "YC", "YD", "YE", "YF", "ZA",
+                "ZB", "ZC", "ZD", "ZE", "ZF", "ZG", "ZH", "ZI", "ZJ", "ZK", "5A", "5B",
+                "5C", "5D", "5E", "5F", "5I", "5J", "5M", "5T"
+            };
+            return listaElementos;
+        }
+
+        public bool VerificarSeExisteOcorrencia(string elemento, List<string> ocorrencias)
+        {
+            Console.WriteLine("Digite a sequência que deseja pesquisar:");
+            string sequencia = Console.ReadLine();
+            if (ocorrencias.Contains(elemento))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
