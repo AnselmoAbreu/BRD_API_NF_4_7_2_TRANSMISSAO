@@ -27,6 +27,9 @@ namespace MeuProjeto.Controllers
         {
             try
             {
+                // Criação de objetos
+                LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
+                Util util = new Util();
 
                 // Obtém o arquivo e o tipoArquivo do request
                 HttpPostedFile file = HttpContext.Current.Request.Files["arquivo"];
@@ -38,10 +41,34 @@ namespace MeuProjeto.Controllers
                 if (string.IsNullOrEmpty(tipoArquivo))
                     return BadRequest("O tipo de arquivo não foi especificado.");
 
-                // Acessa API de Regras
+                // Lê o arquivo gera um byte array
+                byte[] fileBytes;
+                using (var binaryReader = new BinaryReader(file.InputStream))
+                {
+                    fileBytes = binaryReader.ReadBytes(file.ContentLength);
+                }
+
+                // Verifica a extensão do arquivo
+                string extensao = Path.GetExtension(file.FileName).ToLower();
+
+                if (!util.VerificaExtensao(extensao))
+                    return BadRequest("Arquivo com extensão inválida. Extensões permitidas: .rem, .ret, .txt, .rst ou .dat");
+
+                // Verifica a quantidade de linhas do arquivo
+                int totalLinhas = util.ContarLinhasArquivo(fileBytes);
+
+                if (totalLinhas > 10000)
+                    return BadRequest("Não é possível validar arquivos acima de 10 mil linhas. Por favor, insira um arquivo menor para uma validação completa.");
+
+                //verifica integridade do arquivo
+                var retornoIntegridade = await util.VerificarIntegridadeArquivo(fileBytes, tipoArquivo);
+                if(!string.IsNullOrEmpty(retornoIntegridade))
+                    return BadRequest(retornoIntegridade);
+
+                //------------------------------------------------------------------------------------------------------------------------
+                // Acessa API de Regras e Processa o arquivo
                 string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
                 string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
-
 
                 // Verifica se o resultado da API externa é um JSON válido
                 try
@@ -52,33 +79,8 @@ namespace MeuProjeto.Controllers
                 {
                     return BadRequest("O resultado da API de REGRAS não é um JSON válido.");
                 }
-
-                // Lê o arquivo em um byte array
-                byte[] fileBytes;
-                using (var binaryReader = new BinaryReader(file.InputStream))
-                {
-                    fileBytes = binaryReader.ReadBytes(file.ContentLength);
-                }
-
-                LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
-                Util util = new Util();
-
-                string extensao = Path.GetExtension(file.FileName).ToLower();
-
-                if (!util.VerificaExtensao(extensao))
-                    return BadRequest("Arquivo com extensão inválida. Extensões permitidas: .rem, .ret, .txt, .rst ou .dat");
-
-                int totalLinhas = util.ContarLinhasArquivo(fileBytes);
-
-                if (totalLinhas < 3)
-                    return BadRequest("O arquivo deve conter pelo menos 3 linhas.");
-
-                if (totalLinhas > 10000)
-                    return BadRequest("Não é possível validar arquivos acima de 10 mil linhas. Por favor, insira um arquivo menor para uma validação completa.");
-
-                // Processa o arquivo
                 List<string> retornoValidacao = await leituraArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo, resultadoApiExterna);
-
+                //------------------------------------------------------------------------------------------------------------------------
                 if (retornoValidacao.Count > 0)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = retornoValidacao }));
                 
@@ -86,7 +88,7 @@ namespace MeuProjeto.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Erro API Transmissão : " + ex.InnerException);
+                return BadRequest("Erro API Backend : " + ex.InnerException);
 
             }
         }
