@@ -133,8 +133,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         public bool VerificarSeExisteOcorrencia(string elemento, List<string> ocorrencias)
         {
-            Console.WriteLine("Digite a sequência que deseja pesquisar:");
-            string sequencia = Console.ReadLine();
             if (ocorrencias.Contains(elemento))
             {
                 return true;
