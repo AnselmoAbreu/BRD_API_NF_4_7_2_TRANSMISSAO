@@ -14,7 +14,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         Util util = new Util();
         bool erro = false;
         #region Constantes
-        const string registroZero = "RECORD0";
+        const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
         const string registroUm = "RECORD1";
         const string registroDois = "RECORD2";
         const string registroTres = "RECORD3";
@@ -47,7 +47,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         {
 
             listaDeErros.Clear();
-            string valorAnterior = "";
 
             switch (layout)
             {
@@ -135,7 +134,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 string linha;
                 while ((linha = await reader.ReadLineAsync()) != null) // Loop dentro do arquivo
                 {
-                    switch (linha.Substring(8, 1))
+                    switch (linha.Substring(7, 1))
                     {
                         case "0":
                             List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
@@ -143,10 +142,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                             {
                                 if (rootItem.Key == registroZero)
                                 {
-                                    foreach (var keyValueItem in rootItem.Value)
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
                                         erro = false;
-                                        string[] parametro = keyValueItem.Value.Split(':');
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         #region LEGENDAS
                                         //------------------------------------------------------------------------------
                                         // : Posição inicial
@@ -160,7 +159,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         // : Campo Data (D)
                                         //------------------------------------------------------------------------------
                                         #endregion
-                                        int posicaoInicial = Convert.ToInt32(parametro[0]); // POSICAO INICIAL
+                                        int posicaoInicial = Convert.ToInt32(parametro[0]) - 1; // POSICAO INICIAL
                                         int tamanho = Convert.ToInt32(parametro[1]); // TAMANHO
                                         string tipo = parametro[2]; // TIPO = N / C
                                         string obrigatorio = parametro[3]; // (R = REQUERIDO / V = VAZIO)
@@ -172,24 +171,79 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         //------------------------------------------------------------------------
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
-                                        if (!erro && !util.VerificarSeNumerico(leitura) && campoData)
+                                        if (keyValueItem.Key == "UsoExclusivoFebrabanCnab1")
                                         {
-                                            bool dataValida = ValidarData(leitura);
-                                            if (!dataValida)
+                                            int tst = 1;
+                                        }
+
+                                        // Valida o valor fixo do campo
+                                        if (valorFixo.Trim() != "" && leitura.Trim() != valorFixo)
+                                            erro = true;
+
+                                        // Se for um campo data verifica se é valida
+                                        if (campoData)
+                                        {
+                                            if (!erro && !util.VerificarSeNumerico(leitura))
+                                            {
+                                                bool dataValida = ValidarData(leitura);
+                                                if (!dataValida)
+                                                    erro = true;
+                                            }
+                                        }
+                                        // Se for um campo obrigatório
+                                        if (obrigatorio == "R")
+                                        {
+                                            if (campoData) // Valida a data
+                                            {
+                                                bool dataValida = ValidarData(leitura);
+                                                if (!dataValida)
+                                                    erro = true;
+                                            }
+
+                                            // Valida campo do tipo  Numérico
+                                            if (tipo == "N")
+                                            {
+                                                // Valida se numero , e se tamanho é igual ao parametro tamanho
+                                                if (!erro && !util.VerificarSeNumerico(leitura) && leitura.Trim().Length != tamanho)
+                                                {
+                                                    bool dataValida = ValidarData(leitura);
+                                                    if (!dataValida)
+                                                        erro = true;
+                                                }
+                                            }
+
+                                            // Valida campo do tipo Alfanumérico
+                                            if (tipo == "C")
+                                            {
+                                                // Valida se numero , e se tamanho é igual ao parametro tamanho
+                                                if (!erro && leitura.Trim().Length != tamanho)
+                                                {
+                                                    bool dataValida = ValidarData(leitura);
+                                                    if (!dataValida)
+                                                        erro = true;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (!erro && tipo == "N")
+                                            {
+                                                if (!util.VerificarSeNumerico(leitura))
+                                                    erro = true;
+                                                if (util.VerificarSeNumerico(leitura) && leitura.Trim().Length != tamanho)
+                                                    erro = true;
+                                            }
+                                            if (!erro && tipo == "C")
+                                            {
+                                                if (obrigatorio == "R" && leitura.Trim().Length != tamanho)
+                                                    erro = true;
+                                            }
+                                            if (!erro && valorFixo.Trim() != "" && leitura.Trim() != valorFixo)
                                                 erro = true;
                                         }
-                                        if (!erro && tipo == "N" && !util.VerificarSeNumerico(leitura))
-                                            erro = true;
-                                        if (!erro && tipo == "N" && util.VerificarSeNumerico(leitura) && Convert.ToDecimal(leitura) == 0 && posicaoInicial != 0)
-                                            erro = true;
-                                        if (!erro && tipo == "C" && obrigatorio == "R" && leitura.Trim().Length == 0)
-                                            erro = true;
-                                        if (!erro && tipo == "C" && obrigatorio == "V" && leitura.Trim().Length > 0)
-                                            erro = true;
-                                        if (!erro && valorFixo != "" && leitura.Trim() != valorFixo)
-                                            erro = true;
                                         if (erro)
-                                            listaDeErros.Add(RetornaErro(linha.Substring(0, 1), keyValueItem.Key, posicaoManual, leitura, mensagem));
+                                            listaDeErros.Add(RetornaErro(linha.Substring(7, 1), keyValueItem.Key, posicaoManual, leitura, mensagem));
+
                                     }
                                     break;
                                 }
