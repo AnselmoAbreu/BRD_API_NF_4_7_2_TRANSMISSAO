@@ -31,8 +31,28 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         const string segmentoPgTit_J = "PGTO_TITULO_SEGMENTO_J";
         const string segmentoPgTit_J52 = "PGTO_TITULO_SEGMENTO_J52";
-       // const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
-        const string segmentoPgTit_Z = "PGTO_TITULO_SEGMENTO_Z";
+        // const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
+
+        const string segmentoPgTrib_O = "PGTO_TRIBUTOS_SEGMENTO_O";
+        const string segmentoPgTrib_N = "PGTO_TRIBUTOS_SEGMENTO_N";
+        //const string segmentoPgTrib_N1 = "PGTO_TRIBUTOS_SEGMENTO_N1";
+        //const string segmentoPgTrib_N2 = "PGTO_TRIBUTOS_SEGMENTO_N2";
+        //const string segmentoPgTrib_N3 = "PGTO_TRIBUTOS_SEGMENTO_N3";
+        //const string segmentoPgTrib_N4 = "PGTO_TRIBUTOS_SEGMENTO_N4";
+        const string segmentoPgTrib_W = "PGTO_TRIBUTOS_SEGMENTO_W";
+        //const string segmentoPgTrib_W1 = "PGTO_TRIBUTOS_SEGMENTO_W1";
+        //const string segmentoPgTrib_5 = "PGTO_TRIBUTOS_SEGMENTO_5";
+        //const string segmentoPgTrib_Z = "PGTO_TRIBUTOS_SEGMENTO_Z";
+
+        const string segmentoBloquetoEletronico_G = "BLOQUETO_ELETRONICO_SEGMENTO_G";
+        const string segmentoBloquetoEletronico_H = "BLOQUETO_ELETRONICO_SEGMENTO_H";
+        const string segmentoBloquetoEletronico_Y03 = "BLOQUETO_ELETRONICO_SEGMENTO_Y3";
+        const string segmentoBloquetoEletronico_Y51 = "BLOQUETO_ELETRONICO_SEGMENTO_Y51";
+        const string segmentoAlegacaoSacado_Y2 = "ALEGACAO_SACADO_SEGMENTO_Y2";
+
+        const string segmento1_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_1";
+        const string segmento2_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_2";
+        const string segmento3_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_3";
 
         #endregion
 
@@ -274,6 +294,39 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         filtro = segmentoPgTit_J52;
                                     else
                                         filtro = segmentoPgTit_J;
+                                    break;
+                                case "O":
+                                    filtro = segmentoPgTrib_O;
+                                    break;
+                                case "N":
+                                    filtro = segmentoPgTrib_N;
+                                    break;
+                                case "W":
+                                    filtro = segmentoPgTrib_W;
+                                    break;
+                                case "G":
+                                    filtro = segmentoBloquetoEletronico_G;
+                                    break;
+                                case "H":
+                                    filtro = segmentoBloquetoEletronico_H;
+                                    break;
+                                case "Y":
+                                    filtro = "";
+                                    if (idRegistro == "03")
+                                        filtro = segmentoBloquetoEletronico_Y03;
+                                    if (idRegistro == "51")
+                                        filtro = segmentoBloquetoEletronico_Y51;
+                                    if (idRegistro == "02")
+                                        filtro = segmentoAlegacaoSacado_Y2;
+                                    break;
+                                case "1":
+                                    filtro = segmento1_BasesSistemas;
+                                    break;
+                                case "2":
+                                    filtro = segmento2_BasesSistemas;
+                                    break;
+                                case "3":
+                                    filtro = segmento3_BasesSistemas;
                                     break;
                             }
 
