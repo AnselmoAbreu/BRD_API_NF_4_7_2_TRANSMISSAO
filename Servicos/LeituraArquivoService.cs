@@ -16,14 +16,24 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         bool erro = false;
         #region CONSTANTES
         const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
-        const string registroUm = "RECORD1";
-        const string registroDois = "RECORD2";
-        const string registroTres = "RECORD3";
-        const string registroSeis = "RECORD6";
-        const string registroSete = "RECORD7";
         const string registroNove = "REGISTRO_TRAILER_ARQUIVO_(9)";
-        // HEADER_LOTE - 1
-        // TRAILER_LOTE - 5
+        const string segmentoVariosA = "SEGMENTO_PGTOS_DIVERSOS_A";
+        const string segmentoVariosB = "SEGMENTO_PGTOS_DIVERSOS_B";
+        const string segmentoVariosC = "SEGMENTO_PGTOS_DIVERSOS_C";
+        //const string segmentoVarios5 = "SEGMENTO_PGTOS_DIVERSOS_5";
+        const string segmentoVariosZ = "SEGMENTO_PGTOS_DIVERSOS_Z";
+
+        const string descricaoRegistroUm_PgVarios = "REGISTRO_PGTOS_DIVERSOS_HEADER_LOTE_(1)"; // Header de lote 045
+        const string descricaoRegistroUm_PgTitulos = "REGISTRO_PGTO_TITULOS_HEADER_LOTE_(1)"; // Header de lote 040
+        const string descricaoRegistroUm_PgTributos = "REGISTRO_PGTO_TRIBUTOS_HEADER_LOTE_(1)"; // Header de lote 012
+        const string descricaoRegistroUm_BloquetoEletronico = "REGISTRO_BLOQUETO_ELETRONICO_HEADER_LOTE_(1)"; // Header de lote 022
+        const string descricaoRegistroUm_BasesSistemas = "REGISTRO_BASES_SISTEMAS_HEADER_LOTE_(1)"; // Header de lote 010
+
+        const string segmentoPgTit_J = "PGTO_TITULO_SEGMENTO_J";
+        const string segmentoPgTit_J52 = "PGTO_TITULO_SEGMENTO_J52";
+       // const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
+        const string segmentoPgTit_Z = "PGTO_TITULO_SEGMENTO_Z";
+
         #endregion
 
         #region VARIAVEIS
@@ -69,7 +79,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                     ChecarArquivoCob400(fileRows, jsonRegras);
                     break;
                 case "MTP240":
-                    ChecarArquivoMtp240Async(fileRows, jsonRegras);
+                    await ChecarArquivoMtp240Async(fileRows, jsonRegras);
                     break;
                 default:
                     break;
@@ -152,6 +162,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 {
                     indice++;
                     var tipoRegistro = linha.Substring(7, 1); // Posição 8 (índice 7)
+                    var versaoLayout = linha.Substring(13, 3); // Versão do layout
+                    var idRegistro = linha.Substring(17, 2); // Id do registro opcinal
+                    var filtroHeader = "";
                     switch (tipoRegistro)
                     {
                         case "0": // Header de arquivo
@@ -164,7 +177,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key, indice);
                                     }
                                     break;
                                 }
@@ -180,23 +193,100 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                         erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key, indice);
                                     }
                                     break;
                                 }
                             }
                             break;
                         case "1": // Header de lote
+                            switch (versaoLayout)
+                            {
+                                case "045":
+                                    filtroHeader = descricaoRegistroUm_PgVarios;
+                                    break;
+                                case "040":
+                                    filtroHeader = descricaoRegistroUm_PgTitulos;
+                                    break;
+                                case "012":
+                                    filtroHeader = descricaoRegistroUm_PgTributos;
+                                    break;
+                                case "022":
+                                    filtroHeader = descricaoRegistroUm_BloquetoEletronico;
+                                    break;
+                                case "010":
+                                    filtroHeader = descricaoRegistroUm_BasesSistemas;
+                                    break;
+                            }
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key.Contains("HEADER_LOTE"))
+                                if (rootItem.Key == filtroHeader)
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
                                         erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key, indice);
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "5": // Trailer de lote
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key.Contains("TRAILER_LOTE"))
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key, indice);
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "3": // Detalhe
+                            var segmento = linha.Substring(13, 1);
+                            var filtro = "";
+                            switch (segmento)
+                            {
+                                case "A":
+                                    filtro = segmentoVariosA;
+                                    break;
+                                case "B":
+                                    filtro = segmentoVariosB;
+                                    break;
+                                case "C":
+                                    filtro = segmentoVariosC;
+                                    break;
+                                //case "5":
+                                //    filtro = segmentoVarios5;
+                                //    break;
+                                case "Z":
+                                    filtro = segmentoVariosZ;
+                                    break;
+                                case "J":
+                                    if (idRegistro == "52")
+                                        filtro = segmentoPgTit_J52;
+                                    else
+                                        filtro = segmentoPgTit_J;
+                                    break;
+                            }
+
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == filtro)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key + " - (" + filtro + ")", indice);
                                     }
                                     break;
                                 }
@@ -214,14 +304,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         #region MÉTODOS AUXILIARES
 
-        public void VerificarConteudo(string linha, string tipoRegistro, string chave)
+        public void VerificarConteudo(string linha, string tipoRegistro, string chave, int indice)
         {
             var leitura = linha.Substring(posicaoInicial, tamanho);
 
 
             // Valida o valor fixo do campo
-            if (valorFixo.Trim() != "" && leitura.Trim() != valorFixo)
-                erro = true;
+            //if (valorFixo.Trim() != "" && leitura.Trim() != valorFixo)
+            // erro = true;
 
             // Se for um campo data verifica se é valida
             if (campoData)
@@ -229,20 +319,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 if (!erro && !util.VerificarSeNumerico(leitura))
                 {
                     bool dataValida = ValidarData(leitura);
-                    if (!dataValida)
+                    if (!dataValida && !erro)
                         erro = true;
                 }
             }
             // Se for um campo obrigatório
             if (obrigatorio == "R")
             {
-                if (campoData) // Valida a data
-                {
-                    bool dataValida = ValidarData(leitura);
-                    if (!dataValida)
-                        erro = true;
-                }
-
                 // Valida campo do tipo  Numérico
                 if (tipo == "N")
                 {
@@ -257,7 +340,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 if (tipo == "C")
                 {
                     // Valida se numero , e se tamanho é igual ao parametro tamanho
-                    if (!erro && leitura.Trim().Length != tamanho)
+                    if (!erro && leitura.Length != tamanho)
                     {
                         erro = true;
                     }
@@ -279,7 +362,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 }
             }
             if (erro)
-                listaDeErros.Add(RetornaErro(linha.Substring(7, 1), chave, posicaoManual, leitura, mensagem));
+                listaDeErros.Add(RetornaErro(indice, chave, posicaoManual, leitura, mensagem));
         }
 
         public void TransferirParametros(string[] parametros)
@@ -308,7 +391,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             campoData = parametros[8] == "D" ? true : false; // CAMPO DE DATA
         }
 
-        public string RetornaErro(string parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
+        public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
         {
             string retorno = "Erro linha : " + parametroLinha + " - Campo : " + parametroKey + " - Posição : " + parametroPosicao + " - Conteúdo = " + parametroLeitura + " - (" + parametroMensagem + ")";
             return retorno;
