@@ -3,56 +3,58 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using static BRD_API_NF_4_7_2_TRANSMISSAO.Servicos.LeituraArquivoService;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
     public class LeituraArquivoService
     {
         public List<string> listaDeErros = new List<string>();
-        Util util = new Util();
+        readonly Util util = new Util();
         bool erro = false;
         #region CONSTANTES
-        const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
-        const string registroNove = "REGISTRO_TRAILER_ARQUIVO_(9)";
-        const string segmentoVariosA = "SEGMENTO_PGTOS_DIVERSOS_A";
-        const string segmentoVariosB = "SEGMENTO_PGTOS_DIVERSOS_B";
-        const string segmentoVariosC = "SEGMENTO_PGTOS_DIVERSOS_C";
-        //const string segmentoVarios5 = "SEGMENTO_PGTOS_DIVERSOS_5";
-        const string segmentoVariosZ = "SEGMENTO_PGTOS_DIVERSOS_Z";
+        public const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
+        public const string registroNove = "REGISTRO_TRAILER_ARQUIVO_(9)";
+        public const string segmentoVariosA = "SEGMENTO_PGTOS_DIVERSOS_A";
+        public const string segmentoVariosB = "SEGMENTO_PGTOS_DIVERSOS_B";
+        public const string segmentoVariosC = "SEGMENTO_PGTOS_DIVERSOS_C";
+        //public const string segmentoVarios5 = "SEGMENTO_PGTOS_DIVERSOS_5";
+        public const string segmentoVariosZ = "SEGMENTO_PGTOS_DIVERSOS_Z";
 
-        const string descricaoRegistroUm_PgVarios = "REGISTRO_PGTOS_DIVERSOS_HEADER_LOTE_(1)"; // Header de lote 045
-        const string descricaoRegistroUm_PgTitulos = "REGISTRO_PGTO_TITULOS_HEADER_LOTE_(1)"; // Header de lote 040
-        const string descricaoRegistroUm_PgTributos = "REGISTRO_PGTO_TRIBUTOS_HEADER_LOTE_(1)"; // Header de lote 012
-        const string descricaoRegistroUm_BloquetoEletronico = "REGISTRO_BLOQUETO_ELETRONICO_HEADER_LOTE_(1)"; // Header de lote 022
-        const string descricaoRegistroUm_BasesSistemas = "REGISTRO_BASES_SISTEMAS_HEADER_LOTE_(1)"; // Header de lote 010
+        public const string descricaoRegistroUm_PgVarios = "REGISTRO_PGTOS_DIVERSOS_HEADER_LOTE_(1)"; // Header de lote 045
+        public const string descricaoRegistroUm_PgTitulos = "REGISTRO_PGTO_TITULOS_HEADER_LOTE_(1)"; // Header de lote 040
+        public const string descricaoRegistroUm_PgTributos = "REGISTRO_PGTO_TRIBUTOS_HEADER_LOTE_(1)"; // Header de lote 012
+        public const string descricaoRegistroUm_BloquetoEletronico = "REGISTRO_BLOQUETO_ELETRONICO_HEADER_LOTE_(1)"; // Header de lote 022
+        public const string descricaoRegistroUm_BasesSistemas = "REGISTRO_BASES_SISTEMAS_HEADER_LOTE_(1)"; // Header de lote 010
 
-        const string segmentoPgTit_J = "PGTO_TITULO_SEGMENTO_J";
-        const string segmentoPgTit_J52 = "PGTO_TITULO_SEGMENTO_J52";
-        // const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
+        public const string segmentoPgTit_J = "PGTO_TITULO_SEGMENTO_J";
+        public const string segmentoPgTit_J52 = "PGTO_TITULO_SEGMENTO_J52";
+        //public const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
 
-        const string segmentoPgTrib_O = "PGTO_TRIBUTOS_SEGMENTO_O";
-        const string segmentoPgTrib_N = "PGTO_TRIBUTOS_SEGMENTO_N";
-        //const string segmentoPgTrib_N1 = "PGTO_TRIBUTOS_SEGMENTO_N1";
-        //const string segmentoPgTrib_N2 = "PGTO_TRIBUTOS_SEGMENTO_N2";
-        //const string segmentoPgTrib_N3 = "PGTO_TRIBUTOS_SEGMENTO_N3";
-        //const string segmentoPgTrib_N4 = "PGTO_TRIBUTOS_SEGMENTO_N4";
-        const string segmentoPgTrib_W = "PGTO_TRIBUTOS_SEGMENTO_W";
-        //const string segmentoPgTrib_W1 = "PGTO_TRIBUTOS_SEGMENTO_W1";
-        //const string segmentoPgTrib_5 = "PGTO_TRIBUTOS_SEGMENTO_5";
-        //const string segmentoPgTrib_Z = "PGTO_TRIBUTOS_SEGMENTO_Z";
+        public const string segmentoPgTrib_O = "PGTO_TRIBUTOS_SEGMENTO_O";
+        public const string segmentoPgTrib_N = "PGTO_TRIBUTOS_SEGMENTO_N";
+        //public const string segmentoPgTrib_N1 = "PGTO_TRIBUTOS_SEGMENTO_N1";
+        //public const string segmentoPgTrib_N2 = "PGTO_TRIBUTOS_SEGMENTO_N2";
+        //public const string segmentoPgTrib_N3 = "PGTO_TRIBUTOS_SEGMENTO_N3";
+        //public const string segmentoPgTrib_N4 = "PGTO_TRIBUTOS_SEGMENTO_N4";
+        public const string segmentoPgTrib_W = "PGTO_TRIBUTOS_SEGMENTO_W";
+        //public const string segmentoPgTrib_W1 = "PGTO_TRIBUTOS_SEGMENTO_W1";
+        //public const string segmentoPgTrib_5 = "PGTO_TRIBUTOS_SEGMENTO_5";
+        //public const string segmentoPgTrib_Z = "PGTO_TRIBUTOS_SEGMENTO_Z";
 
-        const string segmentoBloquetoEletronico_G = "BLOQUETO_ELETRONICO_SEGMENTO_G";
-        const string segmentoBloquetoEletronico_H = "BLOQUETO_ELETRONICO_SEGMENTO_H";
-        const string segmentoBloquetoEletronico_Y03 = "BLOQUETO_ELETRONICO_SEGMENTO_Y3";
-        const string segmentoBloquetoEletronico_Y51 = "BLOQUETO_ELETRONICO_SEGMENTO_Y51";
-        const string segmentoAlegacaoSacado_Y2 = "ALEGACAO_SACADO_SEGMENTO_Y2";
+        public const string segmentoBloquetoEletronico_G = "BLOQUETO_ELETRONICO_SEGMENTO_G";
+        public const string segmentoBloquetoEletronico_H = "BLOQUETO_ELETRONICO_SEGMENTO_H";
+        public const string segmentoBloquetoEletronico_Y03 = "BLOQUETO_ELETRONICO_SEGMENTO_Y3";
+        public const string segmentoBloquetoEletronico_Y51 = "BLOQUETO_ELETRONICO_SEGMENTO_Y51";
+        public const string segmentoAlegacaoSacado_Y2 = "ALEGACAO_SACADO_SEGMENTO_Y2";
 
-        const string segmento1_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_1";
-        const string segmento2_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_2";
-        const string segmento3_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_3";
+        public const string segmento1_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_1";
+        public const string segmento2_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_2";
+        public const string segmento3_BasesSistemas = "BASES_SISTEMAS_SEGMENTO_3";
+
+        public const string descricaoRegistroCinco_AlegacaoSacado = "REGISTRO_ALEGACAO_SACADO_TRAILER_LOTE_(5)"; // Trailer de lote
+        public const string descricaoRegistroCinco_BasesSistemas = "REGISTRO_BASES_SISTEMAS_TRAILER_LOTE_(5)"; // Trailer de lote
+        public const string descricaoRegistroCinco_PgVarios = "REGISTRO_PGTOS_DIVERSOS_TRAILER_LOTE_(5)"; // Trailer de lote
 
         #endregion
 
@@ -67,6 +69,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public string mensagem = ""; // MENSAGEM
         public bool campoData = false; // CAMPO DE DATA
         #endregion
+
         public class KeyValueItem
         {
             public string Key { get; set; }
@@ -79,14 +82,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             public List<KeyValueItem> Value { get; set; }
         }
 
-        public string ExtrairConteudo(string linha, int posicaoInicial, int posicaoFinal)
-        {
-            if (string.IsNullOrEmpty(linha) || posicaoInicial <= 0 || posicaoFinal >= linha.Length || posicaoInicial > posicaoFinal)
-            {
-                return string.Empty;
-            }
-            return linha.Substring(posicaoInicial, posicaoFinal - posicaoInicial + 1);
-        }
+        //public string ExtrairConteudo(string linha, int posicaoInicial, int posicaoFinal)
+        //{
+        //    if (string.IsNullOrEmpty(linha) || posicaoInicial <= 0 || posicaoFinal >= linha.Length || posicaoInicial > posicaoFinal)
+        //    {
+        //        return string.Empty;
+        //    }
+        //    return linha.Substring(posicaoInicial, posicaoFinal - posicaoInicial + 1);
+        //}
 
         public async Task<List<string>> ProcessarArquivo(byte[] fileRows, string layout, string jsonRegras)
         {
@@ -183,7 +186,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                     indice++;
                     var tipoRegistro = linha.Substring(7, 1); // Posição 8 (índice 7)
                     var versaoLayout = linha.Substring(13, 3); // Versão do layout
-                    var idRegistro = linha.Substring(17, 2); // Id do registro opcinal
+                    var idRegistro = linha.Substring(17, 2); // Id do registro opcional
+                    var espacoVazio = linha.Substring(59, 181); // Espaço vazio
                     var filtroHeader = "";
                     switch (tipoRegistro)
                     {
@@ -254,10 +258,16 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                             }
                             break;
                         case "5": // Trailer de lote
+                            if (espacoVazio.Trim().Length == 0) //181)
+                                filtroHeader = descricaoRegistroCinco_BasesSistemas;
+                            else
+                                filtroHeader = descricaoRegistroCinco_PgVarios;
+
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key.Contains("TRAILER_LOTE"))
+                                if (rootItem.Key == filtroHeader)
                                 {
+
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
                                         erro = false;
@@ -329,7 +339,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                                     filtro = segmento3_BasesSistemas;
                                     break;
                             }
-
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
                                 if (rootItem.Key == filtro)
@@ -360,19 +369,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public void VerificarConteudo(string linha, string tipoRegistro, string chave, int indice)
         {
             var leitura = linha.Substring(posicaoInicial, tamanho);
-
-
-            // Valida o valor fixo do campo
-            //if (valorFixo.Trim() != "" && leitura.Trim() != valorFixo)
-            // erro = true;
-
+            erro = false;
             // Se for um campo data verifica se é valida
             if (campoData)
             {
                 if (!erro && !util.VerificarSeNumerico(leitura))
                 {
                     bool dataValida = ValidarData(leitura);
-                    if (!dataValida && !erro)
+                    if (!dataValida )
                         erro = true;
                 }
             }
@@ -410,7 +414,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 }
                 if (!erro && tipo == "C")
                 {
-                    if (obrigatorio == "R" && leitura.Trim().Length != tamanho)
+                    if (leitura.Trim().Length != tamanho)
                         erro = true;
                 }
             }
