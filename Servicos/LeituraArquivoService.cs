@@ -70,6 +70,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public bool campoData = false; // CAMPO DE DATA
         #endregion
 
+        #region CLASSES
         public class KeyValueItem
         {
             public string Key { get; set; }
@@ -81,15 +82,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             public string Key { get; set; }
             public List<KeyValueItem> Value { get; set; }
         }
-
-        //public string ExtrairConteudo(string linha, int posicaoInicial, int posicaoFinal)
-        //{
-        //    if (string.IsNullOrEmpty(linha) || posicaoInicial <= 0 || posicaoFinal >= linha.Length || posicaoInicial > posicaoFinal)
-        //    {
-        //        return string.Empty;
-        //    }
-        //    return linha.Substring(posicaoInicial, posicaoFinal - posicaoInicial + 1);
-        //}
+        #endregion
 
         public async Task<List<string>> ProcessarArquivo(byte[] fileRows, string layout, string jsonRegras)
         {
@@ -450,7 +443,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
         {
-            string retorno = "Erro linha : " + parametroLinha + " - Campo : " + parametroKey + " - Posição : " + parametroPosicao + " - Conteúdo = " + parametroLeitura + " - (" + parametroMensagem + ")";
+            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Campo : " + parametroKey + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]";
             return retorno;
         }
 
