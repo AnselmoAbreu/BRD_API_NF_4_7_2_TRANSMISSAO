@@ -424,7 +424,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
         {
-            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Campo : " + parametroKey + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]";
+            //string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Campo : " + parametroKey + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]";
+            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]";
             return retorno;
         }
 
