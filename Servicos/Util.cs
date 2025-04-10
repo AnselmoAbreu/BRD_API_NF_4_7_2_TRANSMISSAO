@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -7,11 +6,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 {
     public class Util
     {
-        public string AdicionarZeros(decimal valor, int tamanho) // Preenche com zeros a esquerda
-        {
-            return valor.ToString().PadLeft(tamanho, '0');
-        }
-
         public bool VerificarExtensao(string extensao)
         {
             var extensoesPermitidas = new HashSet<string> { ".rem", ".ret", ".txt", ".rst", ".dat" };
@@ -20,12 +14,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
                 return false;
             }
             return true;
-        }
-
-        public string InserirEspacos(int tamanho)
-        {
-            var branco = new string(' ', tamanho);
-            return branco;
         }
 
         public bool VerificarSeNumerico(string valor)

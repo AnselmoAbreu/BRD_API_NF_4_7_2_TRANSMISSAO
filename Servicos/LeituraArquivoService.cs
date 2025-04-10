@@ -366,51 +366,32 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             // Se for um campo data verifica se é valida
             if (campoData)
             {
-                if (!erro && !util.VerificarSeNumerico(leitura))
+                if (!util.VerificarSeNumerico(leitura))
                 {
                     bool dataValida = ValidarData(leitura);
-                    if (!dataValida )
+                    if (!dataValida)
                         erro = true;
                 }
             }
             // Se for um campo obrigatório
             if (obrigatorio == "R")
             {
-                // Valida campo do tipo  Numérico
                 if (tipo == "N")
-                {
-                    // Valida se numero , e se tamanho é igual ao parametro tamanho
-                    if (!erro && !util.VerificarSeNumerico(leitura) && leitura.Trim().Length != tamanho)
-                    {
+                    if (!erro && (!util.VerificarSeNumerico(leitura) || leitura.Trim().Length < tamanho))
                         erro = true;
-                    }
-                }
 
-                // Valida campo do tipo Alfanumérico
+
                 if (tipo == "C")
-                {
-                    // Valida se numero , e se tamanho é igual ao parametro tamanho
-                    if (!erro && leitura.Length != tamanho)
-                    {
+                    if (!erro && leitura.Length < tamanho)
                         erro = true;
-                    }
-                }
             }
             else
             {
-                if (!erro && tipo == "N")
-                {
-                    if (!util.VerificarSeNumerico(leitura))
+                if (tipo == "N")
+                    if (!erro && (!util.VerificarSeNumerico(leitura) || leitura.Trim().Length == 0 || leitura.Trim().Length < tamanho))
                         erro = true;
-                    if (util.VerificarSeNumerico(leitura) && leitura.Trim().Length != tamanho)
-                        erro = true;
-                }
-                if (!erro && tipo == "C")
-                {
-                    if (leitura.Trim().Length != tamanho)
-                        erro = true;
-                }
             }
+
             if (erro)
                 listaDeErros.Add(RetornaErro(indice, chave, posicaoManual, leitura, mensagem));
         }
@@ -438,7 +419,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             posicaoManual = parametros[5]; // POSIÇÃO NO MANUAL 
             valorFixo = parametros[6]; // VALOR FIXO
             mensagem = parametros[7]; // MENSAGEM
-            campoData = parametros[8] == "D" ? true : false; // CAMPO DE DATA
+            campoData = parametros[8] == "D"; // CAMPO DE DATA
         }
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
