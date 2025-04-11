@@ -364,16 +364,48 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         {
             var leitura = linha.Substring(posicaoInicial, tamanho);
             erro = false;
+
+            // Verifica valorFixo
+            if (!string.IsNullOrEmpty(valorFixo))
+            {
+                if (leitura != valorFixo)
+                {
+                    erro = true;
+                }
+            }
+
+            // Percorre a Lista De Opções do campo
+            if (!string.IsNullOrEmpty(listaDeOpcoes))
+            {
+                string[] array = listaDeOpcoes.Split(',');
+                var conteudoIgual = false;
+                // Percorrendo e verificando o conteúdo:
+                foreach (string item in array)
+                {
+                    if (item == leitura)
+                        conteudoIgual = true;
+                }
+                if (!erro && !conteudoIgual)
+                    erro = true;
+            }
+
+
             // Se for um campo data verifica se é valida
             if (campoData)
             {
-                if (!util.VerificarSeNumerico(leitura))
+                if (util.VerificarSeNumerico(leitura))
                 {
-                    bool dataValida = ValidarData(leitura);
-                    if (!dataValida)
+                    bool dataHoraValida = ValidarDataHora(leitura);
+                    if (!erro && !dataHoraValida)
+                        erro = true;
+                }
+                else
+                {
+                    if (!erro)
                         erro = true;
                 }
             }
+
             // Se for um campo obrigatório
             if (obrigatorio == "R")
             {
@@ -432,17 +464,30 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             return retorno;
         }
 
-        static bool ValidarData(string data)
+        static bool ValidarDataHora(string campoData)
         {
-            if (data.Length != 6) return false; // Verifica se a string tem exatamente 6 caracteres
+            if (campoData.Length != 6 && campoData.Length != 8)
+                return false; 
 
-            // Converte para o formato "ddMMyy"
-            return DateTime.TryParseExact(
-                data,
-                "ddMMyy",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out _);
+            if (campoData.Length == 8)
+            {
+                return DateTime.TryParseExact(
+                    campoData,
+                    "ddMMyyyy",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out _);
+            }
+            else
+            {
+                return DateTime.TryParseExact(
+                    campoData,
+                    "HHmmss", 
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out _);
+
+            }
         }
         #endregion
     }
