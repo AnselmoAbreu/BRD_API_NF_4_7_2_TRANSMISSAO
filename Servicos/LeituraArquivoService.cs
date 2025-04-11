@@ -68,6 +68,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
         public string valorFixo = ""; // VALOR FIXO
         public string mensagem = ""; // MENSAGEM
         public bool campoData = false; // CAMPO DE DATA
+        public string listaDeOpcoes = ""; // Lista de opções possíveis para o campo
         #endregion
 
         #region CLASSES
@@ -410,6 +411,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             // : Valor fixo
             // : Mensagem própria
             // : Campo Data (D)
+            // : Lista de opções do campo
             //---------------------------------------------------------
             posicaoInicial = Convert.ToInt32(parametros[0]) - 1; // POSICAO INICIAL
             tamanho = Convert.ToInt32(parametros[1]); // TAMANHO
@@ -420,6 +422,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
             valorFixo = parametros[6]; // VALOR FIXO
             mensagem = parametros[7]; // MENSAGEM
             campoData = parametros[8] == "D"; // CAMPO DE DATA
+            listaDeOpcoes = parametros[9]; // Lista de opções possíveis para o campo
         }
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
