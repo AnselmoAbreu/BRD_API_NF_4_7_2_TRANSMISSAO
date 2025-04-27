@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
+namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Extensions
 {
-	public class ExternalApiService
+	public class ExternalApiRegrasService
 	{
 		//private static readonly HttpClient client = new HttpClient();
 
@@ -12,7 +12,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Servicos
 			//var handler = new HttpClientHandler();
 			//handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
 			HttpClient client = new HttpClient(); // HttpClient(handler)
-            try
+			try
 			{
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
 				response.EnsureSuccessStatusCode();

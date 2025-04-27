@@ -161,6 +161,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Validators\ValidarCnabMtp240.cs" />
     <Content Include=".editorconfig" />
     <None Include="App_Start\SwaggerConfig.cst" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -197,10 +198,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servicos\LeituraCNAB240Service.cs" />
-    <Compile Include="Servicos\ExternalApiService.cs" />
-    <Compile Include="Servicos\LeituraArquivoService.cs" />
-    <Compile Include="Servicos\Util.cs" />
+    <Compile Include="Services\Interfaces\ILeituraArquivoService.cs" />
+    <Compile Include="Utils\Extensions\ExternalApiRegrasService.cs" />
+    <Compile Include="Services\Cnab\LeituraArquivoService.cs" />
+    <Compile Include="Utils\Helpers\CnabHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

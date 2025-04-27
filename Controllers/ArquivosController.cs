@@ -1,4 +1,5 @@
-﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Servicos;
+﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab;
+using BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,11 +15,11 @@ namespace MeuProjeto.Controllers
     [RoutePrefix("api/Arquivos")]
     public class ArquivosController : ApiController
     {
-        private readonly ExternalApiService externalApiService;
+        private readonly ExternalApiRegrasService externalApiRegrasService;
 
         public ArquivosController()
         {
-            this.externalApiService = new ExternalApiService();
+            this.externalApiRegrasService = new ExternalApiRegrasService();
         }
 
         [HttpPost]
@@ -29,7 +30,7 @@ namespace MeuProjeto.Controllers
             {
                 // Criação de objetos
                 LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
-                Util util = new Util();
+                var util = new BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers.CnabHelper();
 
                 // Obtém o arquivo e o tipoArquivo do request
                 HttpPostedFile file = HttpContext.Current.Request.Files["arquivo"];
@@ -68,7 +69,7 @@ namespace MeuProjeto.Controllers
                 //------------------------------------------------------------------------------------------------------------------------
                 // Acessa API de Regras e Processa o arquivo
                 string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
-                string resultadoApiExterna = await externalApiService.CallExternalApiAsync(apiExternaUrl);
+                string resultadoApiExterna = await externalApiRegrasService.CallExternalApiAsync(apiExternaUrl);
 
                 // Verifica se o resultado da API externa é um JSON válido
                 try
