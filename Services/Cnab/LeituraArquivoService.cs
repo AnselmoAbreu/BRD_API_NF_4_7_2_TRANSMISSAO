@@ -13,7 +13,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
     public class LeituraArquivoService : ILeituraArquivoService
     {
         private readonly List<string> listaDeErros = new List<string>();
-        private ValidarCnabMtp240 _outraClasse = new ValidarCnabMtp240();
+        private ValidarCnabMtp240 _validarCnabMtp240 = new ValidarCnabMtp240();
 
         readonly Utils.Helpers.CnabHelper util = new Utils.Helpers.CnabHelper();
         bool erro = false;
@@ -23,7 +23,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         public const string segmentoVariosA = "SEGMENTO_PGTOS_DIVERSOS_A";
         public const string segmentoVariosB = "SEGMENTO_PGTOS_DIVERSOS_B";
         public const string segmentoVariosC = "SEGMENTO_PGTOS_DIVERSOS_C";
-        //public const string segmentoVarios5 = "SEGMENTO_PGTOS_DIVERSOS_5";
+        public const string segmentoVarios5 = "SEGMENTO_PGTOS_DIVERSOS_5";
         public const string segmentoVariosZ = "SEGMENTO_PGTOS_DIVERSOS_Z";
 
         public const string descricaoRegistroUm_PgVarios = "REGISTRO_PGTOS_DIVERSOS_HEADER_LOTE_(1)"; // Header de lote 045
@@ -34,18 +34,18 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
         public const string segmentoPgTit_J = "PGTO_TITULO_SEGMENTO_J";
         public const string segmentoPgTit_J52 = "PGTO_TITULO_SEGMENTO_J52";
-        //public const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
+        public const string segmentoPgTit_5 = "PGTO_TITULO_SEGMENTO_5";
 
         public const string segmentoPgTrib_O = "PGTO_TRIBUTOS_SEGMENTO_O";
         public const string segmentoPgTrib_N = "PGTO_TRIBUTOS_SEGMENTO_N";
-        //public const string segmentoPgTrib_N1 = "PGTO_TRIBUTOS_SEGMENTO_N1";
-        //public const string segmentoPgTrib_N2 = "PGTO_TRIBUTOS_SEGMENTO_N2";
-        //public const string segmentoPgTrib_N3 = "PGTO_TRIBUTOS_SEGMENTO_N3";
-        //public const string segmentoPgTrib_N4 = "PGTO_TRIBUTOS_SEGMENTO_N4";
+        public const string segmentoPgTrib_N1 = "PGTO_TRIBUTOS_SEGMENTO_N1";
+        public const string segmentoPgTrib_N2 = "PGTO_TRIBUTOS_SEGMENTO_N2";
+        public const string segmentoPgTrib_N3 = "PGTO_TRIBUTOS_SEGMENTO_N3";
+        public const string segmentoPgTrib_N4 = "PGTO_TRIBUTOS_SEGMENTO_N4";
         public const string segmentoPgTrib_W = "PGTO_TRIBUTOS_SEGMENTO_W";
-        //public const string segmentoPgTrib_W1 = "PGTO_TRIBUTOS_SEGMENTO_W1";
-        //public const string segmentoPgTrib_5 = "PGTO_TRIBUTOS_SEGMENTO_5";
-        //public const string segmentoPgTrib_Z = "PGTO_TRIBUTOS_SEGMENTO_Z";
+        public const string segmentoPgTrib_W1 = "PGTO_TRIBUTOS_SEGMENTO_W1";
+        public const string segmentoPgTrib_5 = "PGTO_TRIBUTOS_SEGMENTO_5";
+        public const string segmentoPgTrib_Z = "PGTO_TRIBUTOS_SEGMENTO_Z";
 
         public const string segmentoBloquetoEletronico_G = "BLOQUETO_ELETRONICO_SEGMENTO_G";
         public const string segmentoBloquetoEletronico_H = "BLOQUETO_ELETRONICO_SEGMENTO_H";
@@ -63,7 +63,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
         #endregion
 
-        #region VARIAVEIS
+        #region VARIAVEIS 
         public int posicaoInicial = 0; // POSICAO INICIAL
         public int tamanho = 0; // TAMANHO
         public string tipo = ""; // TIPO = N / C
@@ -74,6 +74,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         public string mensagem = ""; // MENSAGEM
         public bool campoData = false; // CAMPO DE DATA
         public string listaDeOpcoes = ""; // Lista de opções possíveis para o campo
+
+        public string parametrosAnteriores=""; // Guarda as opções do registro anterior para tratamento com mais de uma linha
+        public string linhaAnterior = ""; // Guarda a linha anterior para tratamento com mais de uma linha
         #endregion
 
         #region CLASSES AUXILIARES
@@ -133,8 +136,106 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                     var versaoLayout = linha.Substring(13, 3); // Versão do layout 045, 040, 012, 022, 010
                     var idRegistro = linha.Substring(17, 2); // Id do registro opcional
                     var espacoVazio = linha.Substring(59, 181); // Espaço vazio
+                    var segmento = linha.Substring(13, 1); // Segmento do detalhe
                     var filtroHeader = "";
 
+                    /*
+                     
+                    switch (tipoRegistro)
+
+                    case "0": // Header de arquivo
+                    case "9": // Trailer de arquivo
+                    case "1": // Header de lote
+                    switch (versaoLayout)
+                    {
+                        case "045":
+                            filtroHeader = descricaoRegistroUm_PgVarios;
+                        case "040":
+                            filtroHeader = descricaoRegistroUm_PgTitulos;
+                        case "012":
+                            filtroHeader = descricaoRegistroUm_PgTributos;
+                        case "022":
+                            filtroHeader = descricaoRegistroUm_BloquetoEletronico;
+                        case "010":
+                            filtroHeader = descricaoRegistroUm_BasesSistemas;
+                    }
+                    case "5": // Trailer de lote
+                    case "3": // Detalhe
+                            var segmento = linha.Substring(13, 1);
+                            var filtro = "";
+                            switch (segmento)
+                            {
+                                case "A":
+                                    filtro = segmentoVariosA;
+                                    break;
+                                case "B":
+                                    filtro = segmentoVariosB;
+                                    break;
+                                case "C":
+                                    filtro = segmentoVariosC;
+                                    break;
+                                case "5":
+                                    filtro = segmentoVarios5;
+                                    break;
+                                case "Z":
+                                    filtro = segmentoVariosZ;
+                                    break;
+                                case "J":
+                                    if (idRegistro == "52")
+                                        filtro = segmentoPgTit_J52;
+                                    else
+                                        filtro = segmentoPgTit_J;
+                                    break;
+                                case "O":
+                                    filtro = segmentoPgTrib_O;
+                                    break;
+                                case "N":
+                                    filtro = segmentoPgTrib_N;
+                                    break;
+                                case "W":
+                                    filtro = segmentoPgTrib_W;
+                                    break;
+                                case "G":
+                                    filtro = segmentoBloquetoEletronico_G;
+                                    break;
+                                case "H":
+                                    filtro = segmentoBloquetoEletronico_H;
+                                    break;
+                                case "Y":
+                                    filtro = "";
+                                    if (idRegistro == "03")
+                                        filtro = segmentoBloquetoEletronico_Y03;
+                                    if (idRegistro == "51")
+                                        filtro = segmentoBloquetoEletronico_Y51;
+                                    if (idRegistro == "02")
+                                        filtro = segmentoAlegacaoSacado_Y2;
+                                    break;
+                                case "1":
+                                    filtro = segmento1_BasesSistemas;
+                                    break;
+                                case "2":
+                                    filtro = segmento2_BasesSistemas;
+                                    break;
+                                case "3":
+                                    filtro = segmento3_BasesSistemas;
+                                    break;
+                            }
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == filtro)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key + " - (" + filtro + ")", indice);
+                                    }
+                                    break;
+                                }
+                            }
+
+                    */
                     foreach (var rootItem in itensJson) // Loop dentro do Json
                     {
                         //if (rootItem.Key == registroZero)
@@ -144,29 +245,27 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                             erro = false;
                             string[] parametro = keyValueItem.Value.Split(':'); // Lê regras
                             TransferirParametros(parametro);
-                            //VerificarConteudo(linha, tipoRegistro, keyValueItem.Key, indice);
-                            //}
-                            //break;
-                            //}
+
 
                             string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
 
-                            // Busca o método na "OutraClasse"
-                            // Busca o método com um parâmetro do tipo string
                             MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
                                 metodoNome,
-                                new Type[] { typeof(string) } // Especifica que o método aceita uma string
+                                new Type[] { typeof(string), typeof(string) }
+
+                                // Especifica que o método aceita uma string
                                 );
 
                             if (metodo != null)
                             {
-                                // Invoca o método na instância "_outraClasse"
-                                metodo.Invoke(_outraClasse, new object[] { keyValueItem.Value });
+                                var retorno = metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha , linhaAnterior});
                             }
                             else
                             {
                                 throw new ArgumentException($"Método {metodoNome} não encontrado");
                             }
+                            parametrosAnteriores = keyValueItem.Value; // Guarda os parametros anteriores
+                            linhaAnterior = linha; // Guarda a linha anterior
                         }
                     }
 
@@ -250,12 +349,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
         public void TransferirParametros(string[] parametros)
         {
-            //---------------------------------------------------------
-            // LEGENDAS
-            //---------------------------------------------------------
+            //--------------------------------------------------------
             // : Posição inicial
             // : Tamanho
-            // : Tipo
+            // : Tipo A = ALFANUMÉRICO / N = NUMÉRICO
             // : Obrigatório (R = REQUERIDO / V = VAZIO / Z = ZERADO)
             // : Parentesco (0 = PAI / 1 = FILHO)
             // : Posição no manual do bradesco
@@ -263,7 +360,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             // : Mensagem própria
             // : Campo Data (D)
             // : Lista de opções do campo
-            //---------------------------------------------------------
+            //--------------------------------------------------------
             posicaoInicial = Convert.ToInt32(parametros[0]) - 1; // POSICAO INICIAL
             tamanho = Convert.ToInt32(parametros[1]); // TAMANHO
             tipo = parametros[2]; // TIPO = N / C
