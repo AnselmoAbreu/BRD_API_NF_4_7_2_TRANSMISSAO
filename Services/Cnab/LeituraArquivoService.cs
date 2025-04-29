@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Services.Interfaces;
+using BRD_API_NF_4_7_2_TRANSMISSAO.Validators;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
-using BRD_API_NF_4_7_2_TRANSMISSAO.Services.Interfaces;
-using BRD_API_NF_4_7_2_TRANSMISSAO.Validators;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 {
@@ -75,7 +74,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         public bool campoData = false; // CAMPO DE DATA
         public string listaDeOpcoes = ""; // Lista de opções possíveis para o campo
 
-        public string parametrosAnteriores=""; // Guarda as opções do registro anterior para tratamento com mais de uma linha
+        public string parametrosAnteriores = ""; // Guarda as opções do registro anterior para tratamento com mais de uma linha
         public string linhaAnterior = ""; // Guarda a linha anterior para tratamento com mais de uma linha
         #endregion
 
@@ -85,7 +84,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             public string Key { get; set; }
             public string Value { get; set; }
         }
-
         public class RootItem
         {
             public string Key { get; set; }
@@ -119,12 +117,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
         #endregion
 
+
         #region CHECAR ARQUIVO MULTIPAG 240
         public async Task<List<string>> ChecarArquivoMtp240Async(byte[] fileRows, string jsonRegras)
         {
-
             string linha;
             int indice = 0;
+            Boolean retorno;
             List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
             using (var memoryStream = new MemoryStream(fileRows))
             using (var reader = new StreamReader(memoryStream))
@@ -133,35 +132,189 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                 {
                     indice++;
                     var tipoRegistro = linha.Substring(7, 1); // Posição 8 (índice 7)
-                    var versaoLayout = linha.Substring(13, 3); // Versão do layout 045, 040, 012, 022, 010
+                    var versaoLayout = linha.Substring(13, 3); // Versão do layout
                     var idRegistro = linha.Substring(17, 2); // Id do registro opcional
                     var espacoVazio = linha.Substring(59, 181); // Espaço vazio
-                    var segmento = linha.Substring(13, 1); // Segmento do detalhe
+                    var segmento = linha.Substring(13, 1);
+
                     var filtroHeader = "";
-
-                    /*
-                     
                     switch (tipoRegistro)
-
-                    case "0": // Header de arquivo
-                    case "9": // Trailer de arquivo
-                    case "1": // Header de lote
-                    switch (versaoLayout)
                     {
-                        case "045":
-                            filtroHeader = descricaoRegistroUm_PgVarios;
-                        case "040":
-                            filtroHeader = descricaoRegistroUm_PgTitulos;
-                        case "012":
-                            filtroHeader = descricaoRegistroUm_PgTributos;
-                        case "022":
-                            filtroHeader = descricaoRegistroUm_BloquetoEletronico;
-                        case "010":
-                            filtroHeader = descricaoRegistroUm_BasesSistemas;
-                    }
-                    case "5": // Trailer de lote
-                    case "3": // Detalhe
-                            var segmento = linha.Substring(13, 1);
+                        case "0": // Header de arquivo
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroZero)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+
+                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                            metodoNome,
+                                            new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
+
+                                            // Especifica que o método aceita uma string
+                                            );
+                                        retorno = true;
+                                        if (metodo != null)
+                                        {
+                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                        }
+                                        else
+                                        {
+                                            listaDeErros.Add($"Método {metodoNome} não encontrado - Linha {indice}");
+                                        }
+                                        parametrosAnteriores = keyValueItem.Value;
+                                        linhaAnterior = linha;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+                                        if (!retorno)
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "9": // Trailer de arquivo
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroNove)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+
+                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                            metodoNome,
+                                            new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
+
+                                            // Especifica que o método aceita uma string
+                                            );
+                                        retorno = true;
+                                        if (metodo != null)
+                                        {
+                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                        }
+                                        else
+                                        {
+                                            listaDeErros.Add($"Método {metodoNome} não encontrado - Linha {indice}");
+                                        }
+                                        parametrosAnteriores = keyValueItem.Value;
+                                        linhaAnterior = linha;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+                                        if (!retorno)
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "1": // Header de lote
+                            switch (versaoLayout)
+                            {
+                                case "045":
+                                    filtroHeader = descricaoRegistroUm_PgVarios;
+                                    break;
+                                case "040":
+                                    filtroHeader = descricaoRegistroUm_PgTitulos;
+                                    break;
+                                case "012":
+                                    filtroHeader = descricaoRegistroUm_PgTributos;
+                                    break;
+                                case "022":
+                                    filtroHeader = descricaoRegistroUm_BloquetoEletronico;
+                                    break;
+                                case "010":
+                                    filtroHeader = descricaoRegistroUm_BasesSistemas;
+                                    break;
+                            }
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == filtroHeader)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+
+                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                            metodoNome,
+                                            new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
+
+                                            // Especifica que o método aceita uma string
+                                            );
+                                        retorno = true;
+                                        if (metodo != null)
+                                        {
+                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                        }
+                                        else
+                                        {
+                                            listaDeErros.Add($"Método {metodoNome} não encontrado - Linha {indice}");
+                                        }
+                                        parametrosAnteriores = keyValueItem.Value;
+                                        linhaAnterior = linha;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+                                        if (!retorno)
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "5": // Trailer de lote
+                            if (espacoVazio.Trim().Length == 0) //181)
+                                filtroHeader = descricaoRegistroCinco_BasesSistemas;
+                            else
+                                filtroHeader = descricaoRegistroCinco_PgVarios;
+
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == filtroHeader)
+                                {
+
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        erro = false;
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+
+                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                            metodoNome,
+                                            new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
+
+                                            // Especifica que o método aceita uma string
+                                            );
+                                        retorno = true;
+                                        if (metodo != null)
+                                        {
+                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                        }
+                                        else
+                                        {
+                                            listaDeErros.Add($"Método {metodoNome} não encontrado - Linha {indice}");
+                                        }
+                                        parametrosAnteriores = keyValueItem.Value;
+                                        linhaAnterior = linha;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+                                        if (!retorno)
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "3": // Detalhe
                             var filtro = "";
                             switch (segmento)
                             {
@@ -229,46 +382,36 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        VerificarConteudo(linha, tipoRegistro, keyValueItem.Key + " - (" + filtro + ")", indice);
+                                        string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+
+                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                            metodoNome,
+                                            new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
+
+                                            // Especifica que o método aceita uma string
+                                            );
+                                        retorno = true;
+                                        if (metodo != null)
+                                        {
+                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                        }
+                                        else
+                                        {
+                                            listaDeErros.Add($"Método {metodoNome} não encontrado - Linha {indice}");
+                                        }
+                                        parametrosAnteriores = keyValueItem.Value;
+                                        linhaAnterior = linha;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+                                        if (!retorno)
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
                                     }
                                     break;
                                 }
                             }
-
-                    */
-                    foreach (var rootItem in itensJson) // Loop dentro do Json
-                    {
-                        //if (rootItem.Key == registroZero)
-                        //{
-                        foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
-                        {
-                            erro = false;
-                            string[] parametro = keyValueItem.Value.Split(':'); // Lê regras
-                            TransferirParametros(parametro);
-
-
-                            string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
-
-                            MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
-                                metodoNome,
-                                new Type[] { typeof(string), typeof(string) }
-
-                                // Especifica que o método aceita uma string
-                                );
-
-                            if (metodo != null)
-                            {
-                                var retorno = metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha , linhaAnterior});
-                            }
-                            else
-                            {
-                                throw new ArgumentException($"Método {metodoNome} não encontrado");
-                            }
-                            parametrosAnteriores = keyValueItem.Value; // Guarda os parametros anteriores
-                            linhaAnterior = linha; // Guarda a linha anterior
-                        }
+                            break;
+                        default:
+                            break;
                     }
-
                 }
             }
             return listaDeErros;
@@ -277,76 +420,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         #endregion
 
         #region MÉTODOS AUXILIARES
-
-        //public void VerificarConteudo(string linha, string tipoRegistro, string chave, int indice)
-        //{
-        //    var leitura = linha.Substring(posicaoInicial, tamanho);
-        //    erro = false;
-
-        //    // Verifica valorFixo
-        //    if (!string.IsNullOrEmpty(valorFixo))
-        //    {
-        //        if (leitura != valorFixo)
-        //        {
-        //            erro = true;
-        //        }
-        //    }
-
-        //    // Percorre a Lista De Opções do campo
-        //    if (!string.IsNullOrEmpty(listaDeOpcoes))
-        //    {
-        //        string[] array = listaDeOpcoes.Split(',');
-        //        var conteudoIgual = false;
-        //        // Percorrendo e verificando o conteúdo:
-        //        foreach (string item in array)
-        //        {
-        //            if (item == leitura)
-        //                conteudoIgual = true;
-        //        }
-        //        if (!erro && !conteudoIgual)
-        //            erro = true;
-        //    }
-
-
-        //    // Se for um campo data verifica se é valida
-        //    if (campoData)
-        //    {
-        //        if (util.VerificarSeNumerico(leitura))
-        //        {
-        //            bool dataHoraValida = ValidarDataHora(leitura);
-        //            if (!erro && !dataHoraValida)
-        //                erro = true;
-        //        }
-        //        else
-        //        {
-        //            if (!erro)
-        //                erro = true;
-        //        }
-        //    }
-
-        //    // Se for um campo obrigatório
-        //    if (obrigatorio == "R")
-        //    {
-        //        if (tipo == "N")
-        //            if (!erro && (!util.VerificarSeNumerico(leitura) || leitura.Trim().Length < tamanho))
-        //                erro = true;
-
-
-        //        if (tipo == "C")
-        //            if (!erro && leitura.Length < tamanho)
-        //                erro = true;
-        //    }
-        //    else
-        //    {
-        //        if (tipo == "N")
-        //            if (!erro && (!util.VerificarSeNumerico(leitura) || leitura.Trim().Length == 0 || leitura.Trim().Length < tamanho))
-        //                erro = true;
-        //    }
-
-        //    if (erro)
-        //        listaDeErros.Add(RetornaErro(indice, chave, posicaoManual, leitura, mensagem));
-        //}
-
         public void TransferirParametros(string[] parametros)
         {
             //--------------------------------------------------------
@@ -373,13 +446,11 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             listaDeOpcoes = parametros[9]; // Lista de opções possíveis para o campo
         }
 
-        public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem)
+        public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem, string paramManual)
         {
-            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]";
+            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ] [ " + paramManual + " ]";
             return retorno;
         }
-
-
         #endregion
     }
 }
