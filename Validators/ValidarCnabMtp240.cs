@@ -42,11 +42,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_1001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if(!ValidarValorFixo())
+                return false;   
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_1002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length == 0 && campoAnterior.Length > 0)
                 return false;
 
@@ -59,16 +63,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_1003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_2001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_2002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -76,11 +86,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_2003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_2004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -88,6 +102,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_2005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -95,6 +111,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_3001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -102,46 +120,64 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_3002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_3008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false; 
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -149,16 +185,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_5003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -166,16 +208,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_5006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_5008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false; 
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -183,6 +231,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_5010(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -190,6 +240,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_5011(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -197,12 +249,16 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_A001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaA001 = CriarListaA001();
             return VerificarStringNaListaA001(campoAtual, listaA001);
         }
         public bool ValidarDescricao_A002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -210,6 +266,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_B001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length == 0)
                 return false;
             return true;
@@ -217,12 +275,16 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaC004 = CriarListaC004();
             return VerificarStringNaListaC004(campoAtual, listaC004);
         }
         public bool ValidarDescricao_C006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "1" && campoAtual != "2" && campoAtual != "3" && campoAtual != "4")
@@ -232,6 +294,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C011(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -239,6 +303,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C012(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -246,28 +312,38 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C014(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_C015(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaC015 = CriarListaC015();
             return VerificarStringNaListaC015(campoAtual, listaC015);
         }
         public bool ValidarDescricao_C020(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_C021(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaC021 = CriarListaC021();
             return VerificarStringNaListaC021(campoAtual, listaC021);
         }
         public bool ValidarDescricao_C022(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -275,22 +351,30 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C023(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_C026(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaC026 = CriarListaC026();
             return VerificarStringNaListaC026(campoAtual, listaC026);
         }
         public bool ValidarDescricao_C027(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_C067(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -298,11 +382,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C068(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_C069(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -310,6 +398,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C073(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -317,6 +407,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C075(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -324,6 +416,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
 
@@ -331,6 +425,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -341,6 +437,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "0" && campoAtual != "1" && campoAtual != "2" && campoAtual != "3" && campoAtual != "4" && campoAtual != "5" && campoAtual != "9")
@@ -350,6 +448,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -357,6 +457,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "1" && campoAtual != "2" && campoAtual != "3" && campoAtual != "9")
@@ -366,11 +468,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -378,11 +484,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G009(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -390,11 +500,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G010(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G011(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -402,6 +516,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G012(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -409,6 +525,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G013(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -416,6 +534,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G014(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -423,11 +543,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G015(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G016(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -435,6 +559,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G017(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -442,11 +568,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G018(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G019(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -457,11 +587,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G020(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G021(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -469,6 +603,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G022(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -476,6 +612,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G025(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -486,6 +624,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G028(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -499,6 +639,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G029(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaG029 = CriarListaG029();
             return VerificarStringNaListaG029(campoAtual, listaG029);
         }
@@ -506,6 +648,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G030(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -519,6 +663,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G031(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -526,6 +672,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G032(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -533,6 +681,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G033(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -540,11 +690,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G034(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G035(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -552,6 +706,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G036(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -559,16 +715,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G037(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G038(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G039(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!string.IsNullOrEmpty(valorFixo))
             {
                 if (campoAtual != valorFixo)
@@ -581,22 +743,30 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G040(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaG040 = CriarListaG040();
             return VerificarStringNaListaG040(campoAtual, listaG040);
         }
         public bool ValidarDescricao_G041(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G042(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G043(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -604,6 +774,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G044(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -611,76 +783,106 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G045(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G046(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G047(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G048(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G049(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G050(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G051(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G052(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G053(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G054(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G055(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G056(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G057(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G058(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G059(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -688,6 +890,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G060(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "0" && campoAtual != "1" && campoAtual != "3" && campoAtual != "5" && campoAtual != "7" && campoAtual != "9")
@@ -697,6 +901,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G061(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "62" && campoAtual != "63" && campoAtual != "64" && campoAtual != "70" && campoAtual != "71" && campoAtual != "99")
@@ -707,6 +913,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G062(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;   
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "01" && campoAtual != "02")
@@ -716,11 +924,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G063(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G064(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -728,17 +940,23 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G065(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaG065 = CriarListaG065();
             return VerificarStringNaListaG065(campoAtual, listaG065);
         }
         public bool ValidarDescricao_G066(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G067(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "01" && campoAtual != "02" && campoAtual != "03" && campoAtual != "04" && campoAtual != "11" && campoAtual != "50" && campoAtual != "51")
@@ -748,11 +966,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G070(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_G071(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -760,6 +982,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G073(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "1" && campoAtual != "2")
@@ -769,6 +993,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G074(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -776,21 +1002,29 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G075(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_L002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_L003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -798,6 +1032,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -805,6 +1041,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "01" && campoAtual != "02" && campoAtual != "03" && campoAtual != "04" && campoAtual != "06" && campoAtual != "07" && campoAtual != "08")
@@ -814,11 +1052,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "16" && campoAtual != "18" && campoAtual != "17" && campoAtual != "21" && campoAtual != "25"
@@ -829,16 +1071,22 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -846,36 +1094,50 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N009(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N010(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N011(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N012(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N013(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N014(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N021(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -883,11 +1145,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N023(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_N024(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "1" && campoAtual != "2" && campoAtual != "9")
@@ -897,6 +1163,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N025(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -904,6 +1172,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N026(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -911,6 +1181,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N027(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "01")
@@ -920,6 +1192,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N028(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -927,6 +1201,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_N029(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -934,6 +1210,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "018" && campoAtual != "700" && campoAtual != "888")
@@ -943,11 +1221,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_P003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -955,17 +1237,23 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P004(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_P005(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             var listaP005 = CriarListaP005();
             return VerificarStringNaListaP005(campoAtual, listaP005);
         }
         public bool ValidarDescricao_P006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "0" && campoAtual != "2" && campoAtual != "5" && campoAtual != "6" && campoAtual != "7")
@@ -975,11 +1263,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_P008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -987,6 +1279,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P009(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -994,11 +1288,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P010(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_P011(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (!ValidarDataHora(campoAtual))
                 return false;
             return true;
@@ -1006,11 +1304,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P012(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_P014(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             if (campoAtual != "01")
@@ -1020,11 +1322,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_P015(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             return ValidarCampoNumerico();
         }
         public bool ValidarDescricao_Z001(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -1032,6 +1338,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_Z002(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (!ValidarValorFixo())
+                return false;
             if (campoAtual.Length < tamanho)
                 return false;
             return true;
@@ -1039,6 +1347,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
 
         #region METODOS AUXILIARES
 
+        public bool ValidarValorFixo()
+        {
+            if (!string.IsNullOrEmpty(valorFixo) && VerificarSeNumerico(valorFixo))
+            {
+                if (campoAtual != valorFixo)
+                    return false;
+            }
+            return true;
+        }
         public bool ValidarCampoNumerico()
         {
             // Verifica se o campo é numérico e se o tamanho é válido
