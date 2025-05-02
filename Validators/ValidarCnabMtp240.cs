@@ -943,7 +943,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarCampos()
         {
             // Valor fixo
-            if (!string.IsNullOrEmpty(valorFixo.Trim()))
+            if (!string.IsNullOrEmpty(valorFixo.Trim()) && valorFixo != "D")
             {
                 if (campoAtual != valorFixo)
                     return false;
