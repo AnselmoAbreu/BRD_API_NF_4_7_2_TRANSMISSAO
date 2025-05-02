@@ -987,7 +987,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
 
         public bool VerificarStringNaListaG059(string input, List<string> list)
         {
-            string[] pares = SplitIntoPairs(campoAtual).ToArray();
+            string[] pares = SplitIntoPairs(campoAtual.Trim()).ToArray();
             var retorno = true;
             foreach (string par in pares)
             {

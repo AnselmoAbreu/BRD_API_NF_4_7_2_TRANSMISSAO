@@ -25,7 +25,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO
             // Ativar Swagger
             config.EnableSwagger(c =>
             {
-                c.SingleApiVersion("v1", "API BACKEND V1.1 - ASP.NET 4.7.2");
+                c.SingleApiVersion("v1", "API BACKEND V1.2 - ASP.NET 4.7.2");
                 c.IncludeXmlComments(GetXmlCommentsPath()); // Inclui comentários XML dos métodos
             })
             .EnableSwaggerUi();
