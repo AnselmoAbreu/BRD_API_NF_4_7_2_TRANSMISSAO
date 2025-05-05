@@ -333,6 +333,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G003(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (campoAtual.Trim().Length == 0)
+                return false;
             if (!ValidarCampos())
                 return false;
             if (campoAtual != "0" && campoAtual != "1" && campoAtual != "2" && campoAtual != "3" && campoAtual != "4" && campoAtual != "5" && campoAtual != "9")
@@ -503,6 +505,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G038(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            if (campoAtual.Trim().Length == 0)
+                return false;
             return ValidarCampos();
         }
         public bool ValidarDescricao_G039(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
