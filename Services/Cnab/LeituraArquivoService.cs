@@ -14,10 +14,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
     {
         private readonly List<string> listaDeErros = new List<string>();
         private ValidarCnabMtp240 _validarCnabMtp240 = new ValidarCnabMtp240();
+        private ValidarCnabCob400 _validarCnabCob400 = new ValidarCnabCob400();
+
 
         readonly Utils.Helpers.CnabHelper util = new Utils.Helpers.CnabHelper();
         bool erro = false;
         #region CONSTANTES
+        // MTP240
         public const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
         public const string registroNove = "REGISTRO_TRAILER_ARQUIVO_(9)";
         public const string segmentoVariosA = "SEGMENTO_PGTOS_DIVERSOS_A";
@@ -61,6 +64,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         public const string descricaoRegistroCinco_BasesSistemas = "REGISTRO_BASES_SISTEMAS_TRAILER_LOTE_(5)"; // Trailer de lote
         public const string descricaoRegistroCinco_PgVarios = "REGISTRO_PGTOS_DIVERSOS_TRAILER_LOTE_(5)"; // Trailer de lote
 
+        // COB400
+        const string registroTipoZero = "REGISTRO_TIPO_0"; // Header de arquivo
+        const string registroTipoNove = "REGISTRO_TIPO_9"; // Trailer de arquivo
+        const string registroTipo1 = "REGISTRO_TIPO_1";
+        const string registroTipo2 = "REGISTRO_TIPO_2";
+        const string registroTipo3 = "REGISTRO_TIPO_3";
+        const string registroTipo6 = "REGISTRO_TIPO_6";
+        const string registroTipo7 = "REGISTRO_TIPO_7";
         #endregion
 
         #region VARIAVEIS 
@@ -96,24 +107,211 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         {
 
             listaDeErros.Clear();
-
-            switch (layout)
+            try
             {
-                case "COB400":
-                    ProcessarArquivoCob400Async(fileRows, jsonRegras);
-                    break;
-                case "MTP240":
-                    await ProcessarArquivoMtp240Async(fileRows, jsonRegras);
-                    break;
-                default:
-                    break;
+                switch (layout)
+                {
+
+                    case "COB400":
+                        await ProcessarArquivoCob400Async(fileRows, jsonRegras);
+                        break;
+                    case "MTP240":
+                        await ProcessarArquivoMtp240Async(fileRows, jsonRegras);
+                        break;
+                    default:
+                        break;
+                }
+                return listaDeErros;
             }
-            return listaDeErros;
+            catch (Exception ex)
+            {
+                listaDeErros.Add($"Erro ao processar o arquivo: {ex.Message}");
+                return listaDeErros;
+            }
         }
 
         #region CHECAR ARQUIVO COB400
-        public async Task<List<string>> ProcessarArquivoCob400Async(byte[] linhas, string jsonRegras)
+        public async Task<List<string>> ProcessarArquivoCob400Async(byte[] fileRows, string jsonRegras)
         {
+            string linha;
+            int indice = 0;
+            Boolean retorno;
+            Boolean exitLoop = false;
+            List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
+            using (var memoryStream = new MemoryStream(fileRows))
+            using (var reader = new StreamReader(memoryStream))
+            {
+                while ((linha = await reader.ReadLineAsync()) != null) // Loop dentro do arquivo
+                {
+                    exitLoop = false;
+                    indice++;
+                    var tipoRegistro = linha.Substring(0, 1); // Posição 8 (índice 7)
+                    var versaoLayout = linha.Substring(13, 3); // Versão do layout
+                    var idRegistro = linha.Substring(17, 2); // Id do registro opcional
+                    var espacoVazio = linha.Substring(59, 181); // Espaço vazio
+                    var segmento = linha.Substring(13, 1);
+
+                    var filtroHeader = "";
+                    switch (tipoRegistro)
+                    {
+                        case " ":
+                            exitLoop = true;
+                            listaDeErros.Add(RetornaErro(indice, "TipoRegistro", "1-1", "", "Erro - Identificação do Registro", ""));
+                            break;
+                        case "0": // Header de arquivo
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipoZero)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "9": // Trailer de arquivo
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipoZero)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "1":
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipo1)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "2": // Trailer de lote
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipo2)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "3": // Detalhe
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipo3)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "6": // Detalhe
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipo6)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        case "7": // Detalhe
+                            foreach (var rootItem in itensJson) // Loop dentro do Json
+                            {
+                                if (rootItem.Key == registroTipo7)
+                                {
+                                    foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
+                                    {
+                                        string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
+                                        TransferirParametros(parametro);
+                                        erro = false;
+                                        var leitura = linha.Substring(posicaoInicial, tamanho);
+
+                                        if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
+                                        {
+                                            listaDeErros.Add(RetornaErro(indice, keyValueItem.Key, posicaoManual, leitura, mensagem, parametro[9]));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    if (exitLoop)
+                        break;
+                }
+            }
             return listaDeErros;
         }
         #endregion

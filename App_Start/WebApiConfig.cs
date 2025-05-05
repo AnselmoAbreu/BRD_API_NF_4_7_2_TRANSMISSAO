@@ -1,7 +1,4 @@
 ﻿using Swashbuckle.Application;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO
@@ -15,7 +12,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            // 🔹 Rota para o método UploadArquivoAsync
+            // Rota para o método UploadArquivoAsync
             config.Routes.MapHttpRoute(
                 name: "UploadArquivoApi",
                 routeTemplate: "api/{controller}/ENVIAR_ARQUIVO",
@@ -25,12 +22,12 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO
             // Ativar Swagger
             config.EnableSwagger(c =>
             {
-                c.SingleApiVersion("v1", "API BACKEND V1.5 - ASP.NET 4.7.2");
+                c.SingleApiVersion("v1", "API BACKEND V1.6 - ASP.NET 4.7.2");
                 c.IncludeXmlComments(GetXmlCommentsPath()); // Inclui comentários XML dos métodos
             })
             .EnableSwaggerUi();
 
-            // 🔹 Redirecionar para o Swagger por padrão
+            // Redirecionar para o Swagger por padrão
             config.Routes.MapHttpRoute(
                 name: "Default",
                 routeTemplate: "",
