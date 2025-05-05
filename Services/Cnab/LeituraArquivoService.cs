@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using static BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab.LeituraArquivoService;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 {
@@ -124,12 +125,14 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             string linha;
             int indice = 0;
             Boolean retorno;
+            Boolean exitLoop = false;
             List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
             using (var memoryStream = new MemoryStream(fileRows))
             using (var reader = new StreamReader(memoryStream))
             {
                 while ((linha = await reader.ReadLineAsync()) != null) // Loop dentro do arquivo
                 {
+                    exitLoop = false;
                     indice++;
                     var tipoRegistro = linha.Substring(7, 1); // Posição 8 (índice 7)
                     var versaoLayout = linha.Substring(13, 3); // Versão do layout
@@ -140,6 +143,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                     var filtroHeader = "";
                     switch (tipoRegistro)
                     {
+                        case " ":
+                            exitLoop = true;
+                            listaDeErros.Add(RetornaErro(indice, "TipoRegistro", "8-8", "", "Erro - Tipo de Registro", "G003"));
+                            break;
                         case "0": // Header de arquivo
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
@@ -412,6 +419,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                         default:
                             break;
                     }
+                    if (exitLoop)
+                        break;
                 }
             }
             return listaDeErros;
