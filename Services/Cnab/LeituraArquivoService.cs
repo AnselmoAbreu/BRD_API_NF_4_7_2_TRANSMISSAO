@@ -100,10 +100,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             switch (layout)
             {
                 case "COB400":
-                    ChecarArquivoCob400Async(fileRows, jsonRegras);
+                    ProcessarArquivoCob400Async(fileRows, jsonRegras);
                     break;
                 case "MTP240":
-                    await ChecarArquivoMtp240Async(fileRows, jsonRegras);
+                    await ProcessarArquivoMtp240Async(fileRows, jsonRegras);
                     break;
                 default:
                     break;
@@ -112,7 +112,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
 
         #region CHECAR ARQUIVO COB400
-        public async Task<List<string>> ChecarArquivoCob400Async(byte[] linhas, string jsonRegras)
+        public async Task<List<string>> ProcessarArquivoCob400Async(byte[] linhas, string jsonRegras)
         {
             return listaDeErros;
         }
@@ -120,7 +120,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
 
         #region CHECAR ARQUIVO MULTIPAG 240
-        public async Task<List<string>> ChecarArquivoMtp240Async(byte[] fileRows, string jsonRegras)
+        public async Task<List<string>> ProcessarArquivoMtp240Async(byte[] fileRows, string jsonRegras)
         {
             string linha;
             int indice = 0;
