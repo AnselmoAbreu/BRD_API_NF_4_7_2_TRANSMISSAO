@@ -942,6 +942,13 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             return ValidarCampos();
         }
 
+        public bool ValidarDescricao_BRCO(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
+        {
+            // Este validador foi criado para suprimir campos onde o manual diverge da atualidade.
+            TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
+            return ValidarCampos();
+        }
+
         #region METODOS AUXILIARES
 
         public bool ValidarCampos()
@@ -965,7 +972,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
                 return false;
 
             // Data
-            if (tipo == "D" && !ValidarDataHora(campoAtual))
+            if (campoData && !ValidarDataHora(campoAtual))
                 return false;
 
             return true;
