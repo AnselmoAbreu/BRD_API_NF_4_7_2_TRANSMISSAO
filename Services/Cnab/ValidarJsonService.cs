@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 {
-    public class CriarJsonService : ICriarJsonService
+    public class ValidarJsonService : IValidarJsonService
     {
         private readonly List<string> listaDeErros = new List<string>();
         private ValidarCnabMtp240 _validarCnabMtp240 = new ValidarCnabMtp240();
