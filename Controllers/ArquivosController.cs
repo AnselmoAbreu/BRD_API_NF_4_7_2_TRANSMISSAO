@@ -86,7 +86,7 @@ namespace MeuProjeto.Controllers
                 {
                     return BadRequest("O resultado da API de REGRAS não é um JSON válido.");
                 }
-                List<string> ListaRetornoValidacao = await criarJsonDoArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo, resultadoApiExterna);
+                List<string> ListaRetornoValidacao = await criarJsonDoArquivoServico.ProcessarArquivos(fileBytes, tipoArquivo, resultadoApiExterna);
                 
                 //------------------------------------------------------------------------------------------------------------------------
                 if (ListaRetornoValidacao.Count > 0)

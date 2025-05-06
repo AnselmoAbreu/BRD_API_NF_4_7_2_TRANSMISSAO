@@ -103,7 +103,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
         #endregion
 
-        public async Task<List<string>> ProcessarArquivo(byte[] fileRows, string layout, string jsonRegras)
+        public async Task<List<string>> ProcessarArquivos(byte[] fileRows, string layout, string jsonRegras)
         {
 
             listaDeErros.Clear();
