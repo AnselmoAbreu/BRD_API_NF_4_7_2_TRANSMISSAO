@@ -30,7 +30,7 @@ namespace MeuProjeto.Controllers
             {
                 //------------------------------------------------------------------------------------------------------------------------
                 // Criação de objetos
-                ValidarJsonService criarJsonDoArquivoServico = new ValidarJsonService();
+                ValidarOpcoesJsonService criarJsonDoArquivoServico = new ValidarOpcoesJsonService();
                 var util = new BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers.CnabHelper();
 
                 //------------------------------------------------------------------------------------------------------------------------

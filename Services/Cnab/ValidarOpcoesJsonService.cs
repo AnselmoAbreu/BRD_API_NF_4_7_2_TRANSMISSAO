@@ -9,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 {
-    public class ValidarJsonService : IValidarJsonService
+    public class ValidarOpcoesJsonService : IValidarOpcoesJsonService
     {
         private readonly List<string> listaDeErros = new List<string>();
         private ValidarCnabMtp240 _validarCnabMtp240 = new ValidarCnabMtp240();
         private ValidarCnabCob400 _validarCnabCob400 = new ValidarCnabCob400();
 
-
-        //readonly Utils.Helpers.CnabHelper util = new Utils.Helpers.CnabHelper();
-        bool erro = false;
+        //bool erro = false;
         #region CONSTANTES
         // MTP240
         public const string registroZero = "REGISTRO_HEADER_ARQUIVO_(0)";
@@ -167,7 +165,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -188,7 +186,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -209,7 +207,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -230,7 +228,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -251,7 +249,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -272,7 +270,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -293,7 +291,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     {
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
-                                        erro = false;
+                                        //erro = false;
                                         var leitura = linha.Substring(posicaoInicial, tamanho);
 
                                         if (!_validarCnabCob400.ValidarCampos(keyValueItem.Value, linha))
@@ -351,7 +349,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
-                                        erro = false;
+                                        //erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
@@ -389,7 +387,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
-                                        erro = false;
+                                        //erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
@@ -445,7 +443,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
-                                        erro = false;
+                                        //erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
@@ -488,7 +486,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
-                                        erro = false;
+                                        //erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
@@ -583,7 +581,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
-                                        erro = false;
+                                        //erro = false;
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
@@ -654,7 +652,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem, string paramManual)
         {
-            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ] [ " + paramManual + " ]";
+            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]"; // [ " + paramManual + " ]";
             return retorno;
         }
         #endregion

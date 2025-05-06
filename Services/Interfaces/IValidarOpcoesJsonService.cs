@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Interfaces
 {
-    public interface IValidarJsonService
+    public interface IValidarOpcoesJsonService
     {
         Task<List<string>> ProcessarArquivos(byte[] fileRows, string layout, string jsonRegras);
         Task<List<string>> ProcessarArquivoCob400Async(byte[] linhas, string jsonRegras);
