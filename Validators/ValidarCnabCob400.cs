@@ -51,7 +51,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
                 return false;
 
             // Data
-            if (tipo == "D" && !ValidarDataHora(campoAtual))
+            if (campoData && !ValidarDataHora(campoAtual))
                 return false;
 
             return true;
