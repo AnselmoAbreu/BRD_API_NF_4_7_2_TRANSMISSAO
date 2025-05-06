@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Interfaces
 {
-    public interface ILeituraArquivoService
+    public interface ICriarJsonService
     {
         Task<List<string>> ProcessarArquivo(byte[] fileRows, string layout, string jsonRegras);
         Task<List<string>> ProcessarArquivoCob400Async(byte[] linhas, string jsonRegras);

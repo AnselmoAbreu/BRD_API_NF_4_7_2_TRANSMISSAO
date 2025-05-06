@@ -6,18 +6,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using static BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab.LeituraArquivoService;
 
 namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 {
-    public class LeituraArquivoService : ILeituraArquivoService
+    public class CriarJsonService : ICriarJsonService
     {
         private readonly List<string> listaDeErros = new List<string>();
         private ValidarCnabMtp240 _validarCnabMtp240 = new ValidarCnabMtp240();
         private ValidarCnabCob400 _validarCnabCob400 = new ValidarCnabCob400();
 
 
-        readonly Utils.Helpers.CnabHelper util = new Utils.Helpers.CnabHelper();
+        //readonly Utils.Helpers.CnabHelper util = new Utils.Helpers.CnabHelper();
         bool erro = false;
         #region CONSTANTES
         // MTP240
@@ -75,6 +74,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         #endregion
 
         #region VARIAVEIS 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1104:Fields should not have public accessibility", Justification = "<Pending>")]
         public int posicaoInicial = 0; // POSICAO INICIAL
         public int tamanho = 0; // TAMANHO
         public string tipo = ""; // TIPO = N / C
@@ -130,7 +130,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
             }
         }
 
-        #region CHECAR ARQUIVO COB400
+        #region PROCESSAR ARQUIVO COB400
         public async Task<List<string>> ProcessarArquivoCob400Async(byte[] fileRows, string jsonRegras)
         {
             string linha;
@@ -182,7 +182,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                         case "9": // Trailer de arquivo
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key == registroTipoZero)
+                                if (rootItem.Key == registroTipoNove)
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
@@ -316,8 +316,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
         #endregion
 
-
-        #region CHECAR ARQUIVO MULTIPAG 240
+        #region PROCESSAR ARQUIVO MULTIPAG 240
         public async Task<List<string>> ProcessarArquivoMtp240Async(byte[] fileRows, string jsonRegras)
         {
             string linha;

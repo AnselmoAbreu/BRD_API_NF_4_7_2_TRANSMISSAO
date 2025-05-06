@@ -30,7 +30,7 @@ namespace MeuProjeto.Controllers
             {
                 //------------------------------------------------------------------------------------------------------------------------
                 // Criação de objetos
-                LeituraArquivoService leituraArquivoServico = new LeituraArquivoService();
+                CriarJsonService criarJsonDoArquivoServico = new CriarJsonService();
                 var util = new BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers.CnabHelper();
 
                 //------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace MeuProjeto.Controllers
                 {
                     return BadRequest("O resultado da API de REGRAS não é um JSON válido.");
                 }
-                List<string> ListaRetornoValidacao = await leituraArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo, resultadoApiExterna);
+                List<string> ListaRetornoValidacao = await criarJsonDoArquivoServico.ProcessarArquivo(fileBytes, tipoArquivo, resultadoApiExterna);
                 
                 //------------------------------------------------------------------------------------------------------------------------
                 if (ListaRetornoValidacao.Count > 0)

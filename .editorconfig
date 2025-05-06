@@ -5,3 +5,9 @@ dotnet_diagnostic.CS1591.severity = none
 
 # S1066: Collapsible "if" statements should be merged
 dotnet_diagnostic.S1066.severity = none
+
+# S1104: Fields should not have public accessibility
+dotnet_diagnostic.S1104.severity = silent
+
+# S2933: Fields that are only assigned in the constructor should be "readonly"
+dotnet_diagnostic.S2933.severity = silent
