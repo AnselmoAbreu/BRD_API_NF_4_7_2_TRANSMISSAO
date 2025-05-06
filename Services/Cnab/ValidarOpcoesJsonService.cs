@@ -652,7 +652,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
 
         public string RetornaErro(int parametroLinha, string parametroKey, string parametroPosicao, string parametroLeitura, string parametroMensagem, string paramManual)
         {
-            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ]"; // [ " + paramManual + " ]";
+            string retorno = "[ Erro na linha : " + parametroLinha + " ] [ Posição : " + parametroPosicao + " ] [ Conteúdo = {" + parametroLeitura + "} ] [ " + parametroMensagem + " ] [ " + paramManual + " ]";
             return retorno;
         }
         #endregion
