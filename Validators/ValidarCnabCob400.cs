@@ -35,6 +35,17 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             listaDeOpcoes = parametros[9]; // LISTA DE OPÇÕES POSSÍVEIS PARA O CAMPO
             campoAtual = linhaAtual.Substring(posicaoInicial, tamanho);
 
+            if (!string.IsNullOrEmpty(listaDeOpcoes))
+            {
+                var partes = listaDeOpcoes.Split(',');
+                foreach (var parte in partes)
+                {
+                    if (parte == campoAtual)
+                        return true;
+                }
+                return false;
+            }
+
             // Valor fixo
             if (!string.IsNullOrEmpty(valorFixo.Trim()) && !campoData)
             {
@@ -51,42 +62,47 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
                 return false;
 
             // Data
-            if (campoData && !ValidarDataHora(campoAtual))
+            if (campoData && tamanho == 6 && !ValidarData6(campoAtual))
                 return false;
-
+            if (campoData && tamanho == 8 && !ValidarData8(campoAtual))
+                return false;
             return true;
         }
 
         public bool VerificarSeNumerico(string valor)
         {
-            //return decimal.TryParse(valor, out _);
             return double.TryParse(valor, NumberStyles.Any, CultureInfo.InvariantCulture, out _);
 
         }
-        public bool ValidarDataHora(string campoData)
+        public bool ValidarData6(string campoData)
         {
-            if (campoData.Length != 6 && campoData.Length != 8)
+            if (campoData.Length != 6)
                 return false;
 
-            if (campoData.Length == 8)
-            {
-                return DateTime.TryParseExact(
-                    campoData,
-                    "ddMMyyyy",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out _);
-            }
-            else
-            {
-                return DateTime.TryParseExact(
-                    campoData,
-                    "HHmmss",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out _);
+            var retorno = DateTime.TryParseExact(
+                campoData,
+                "ddMMyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out _);
 
-            }
+            return retorno;
+
+        }
+        public bool ValidarData8(string campoData)
+        {
+            if (campoData.Length != 8)
+                return false;
+
+            var retorno = DateTime.TryParseExact(
+                campoData,
+                "ddMMyyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out _);
+
+            return retorno;
+
         }
     }
 }
