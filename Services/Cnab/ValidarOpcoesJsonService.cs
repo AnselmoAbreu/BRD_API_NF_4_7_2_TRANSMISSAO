@@ -69,6 +69,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         const string registroTipo3 = "REGISTRO_TIPO_3";
         const string registroTipo6 = "REGISTRO_TIPO_6";
         const string registroTipo7 = "REGISTRO_TIPO_7";
+
+        const string cobranca400 = "COB400";
+        const string multipag240 = "MTP240";
+
         #endregion
 
         #region VARIAVEIS 
@@ -110,10 +114,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                 switch (layout)
                 {
 
-                    case "COB400":
+                    case cobranca400:
                         await ProcessarArquivoCob400Async(fileRows, jsonRegras);
                         break;
-                    case "MTP240":
+                    case multipag240:
                         await ProcessarArquivoMtp240Async(fileRows, jsonRegras);
                         break;
                     default:
