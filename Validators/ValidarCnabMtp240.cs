@@ -449,7 +449,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_G028(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
-            return ValidarCampos();
+            if (!ValidarCampos())
+                return false;
+            var listaG028 = CriarListaG028();
+            return VerificarStringNaListaG028(campoAtual, listaG028);
         }
 
         public bool ValidarDescricao_G029(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
@@ -1104,6 +1107,19 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             return list.Contains(input);
         }
 
+
+        public static List<string> CriarListaG028()
+        {
+            return new List<string>
+            {
+                "C", "D", "E", "G", "I","R", "T"
+            };
+        }
+
+        public static bool VerificarStringNaListaG028(string input, List<string> list)
+        {
+            return list.Contains(input);
+        }
 
         public static List<string> CriarListaG029()
         {
