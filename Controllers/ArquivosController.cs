@@ -2,6 +2,7 @@
 using BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -55,7 +56,7 @@ namespace MeuProjeto.Controllers
                 string extensao = Path.GetExtension(file.FileName).ToLower();
                 if (!util.VerificarExtensao(extensao))
                     return BadRequest("Arquivo com extensão inválida. Extensões permitidas: .rem, .ret, .txt, .rst ou .dat");
-               
+
                 //------------------------------------------------------------------------------------------------------------------------
                 // Verifica a quantidade de linhas do arquivo
                 int totalLinhas = util.ContarLinhasArquivo(fileBytes);
@@ -73,7 +74,16 @@ namespace MeuProjeto.Controllers
 
                 //------------------------------------------------------------------------------------------------------------------------
                 // Acessa API de Regras e Processa o arquivo
-                string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
+                string apiExternaUrl = "";
+
+                #if DEBUG
+                    apiExternaUrl = ConfigurationManager.AppSettings["BaseUrlApi"]; // Dev
+                #else
+                    apiExternaUrl = ConfigurationManager.AppSettings["BaseUrlApiProd"]; // Prod
+                #endif
+
+                //string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
+                apiExternaUrl += tipoArquivo;
                 string resultadoApiExterna = await externalApiRegrasService.CallExternalApiAsync(apiExternaUrl);
 
                 //------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +97,7 @@ namespace MeuProjeto.Controllers
                     return BadRequest("O resultado da API de REGRAS não é um JSON válido.");
                 }
                 List<string> ListaRetornoValidacao = await criarJsonDoArquivoServico.ProcessarArquivos(fileBytes, tipoArquivo, resultadoApiExterna);
-                
+
                 //------------------------------------------------------------------------------------------------------------------------
                 if (ListaRetornoValidacao.Count > 0)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new { erros = ListaRetornoValidacao }));
