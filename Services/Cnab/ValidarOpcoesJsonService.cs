@@ -150,7 +150,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         {
             string linha;
             int indice = 0;
-            Boolean retorno;
+            //Boolean retorno;
             Boolean exitLoop = false;
             List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
             using (var memoryStream = new MemoryStream(fileRows))
@@ -324,13 +324,12 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
         #endregion
 
-
         #region PROCESSAR ARQUIVO COB240
         public async Task<List<string>> ProcessarArquivoCob240Async(byte[] fileRows, string jsonRegras)
         {
             string linha;
             int indice = 0;
-            Boolean retorno;
+            //Boolean retorno;
             Boolean exitLoop = false;
             List<RootItem> itensJson = JsonConvert.DeserializeObject<List<RootItem>>(jsonRegras);
             using (var memoryStream = new MemoryStream(fileRows))
@@ -341,10 +340,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                     exitLoop = false;
                     indice++;
                     var tipoRegistro = linha.Substring(0, 1); // Posição 8 (índice 7)
-                    var versaoLayout = linha.Substring(13, 3); // Versão do layout
-                    var idRegistro = linha.Substring(17, 2); // Id do registro opcional
-                    var espacoVazio = linha.Substring(59, 181); // Espaço vazio
-                    var segmento = linha.Substring(13, 1);
+                    //var versaoLayout = linha.Substring(13, 3); // Versão do layout
+                    //var idRegistro = linha.Substring(17, 2); // Id do registro opcional
+                    //var espacoVazio = linha.Substring(59, 181); // Espaço vazio
+                    //var segmento = linha.Substring(13, 1);
 
                     var filtroHeader = "";
                     switch (tipoRegistro)
@@ -504,7 +503,6 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         }
         #endregion
 
-
         #region PROCESSAR ARQUIVO MULTIPAG 240
         public async Task<List<string>> ProcessarArquivoMtp240Async(byte[] fileRows, string jsonRegras)
         {
@@ -520,6 +518,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                 {
                     exitLoop = false;
                     indice++;
+                    //var testex = "";
+                    //if (indice == 6)
+                    //    testex = "";
+
                     var tipoRegistro = linha.Substring(7, 1); // Posição 8 (índice 7)
                     var versaoLayout = linha.Substring(13, 3); // Versão do layout
                     var idRegistro = linha.Substring(17, 2); // Id do registro opcional
@@ -768,9 +770,16 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
+                                        //var teste = "";
                                         string[] parametro = keyValueItem.Value.Split(':'); // LÊ REGRAS
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
+                                        //if (filtro == segmentoBloquetoEletronico_Y51) //parametro[8] == "D")
+                                        //{
+                                        //   if (parametro[5] == "187-201")
+                                        //       teste = parametro[5];
+                                        //
+                                        //}
 
                                         MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
                                             metodoNome,
