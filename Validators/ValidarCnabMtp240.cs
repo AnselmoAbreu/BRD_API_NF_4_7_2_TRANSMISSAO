@@ -637,8 +637,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
             if (!ValidarCampos())
                 return false;
-            if (campoAtual != "62" && campoAtual != "63" && campoAtual != "64" && campoAtual != "70" && campoAtual != "71" && campoAtual != "99")
-                return false;
+            if (campoAtual != "00" && campoAtual != "05" && campoAtual != "06" && campoAtual != "09" && campoAtual != "10" &&
+                campoAtual != "11" && campoAtual != "17" && campoAtual != "19" && campoAtual != "23" && campoAtual != "25" &&
+                campoAtual != "27" && campoAtual != "33" && campoAtual != "40") return false;
             return true;
         }
 

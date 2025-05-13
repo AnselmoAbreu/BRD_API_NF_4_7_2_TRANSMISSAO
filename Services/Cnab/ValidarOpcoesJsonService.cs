@@ -61,6 +61,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         public const string descricaoRegistroCinco_BasesSistemas = "REGISTRO_BASES_SISTEMAS_TRAILER_LOTE_(5)"; // Trailer de lote
         public const string descricaoRegistroCinco_PgVarios = "REGISTRO_PGTOS_DIVERSOS_TRAILER_LOTE_(5)"; // Trailer de lote
 
+        const string descricaoRegistroUm_AlegacaoSacado = "REGISTRO_ALEGACAO_SACADO_HEADER_LOTE_(1)"; // Header de lote
+
         // COB400
         const string registroCob400TipoZero = "REGISTRO_TIPO_0"; // Header de arquivo
         const string registroCob400TipoNove = "REGISTRO_TIPO_9"; // Trailer de arquivo
@@ -527,6 +529,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                     var idRegistro = linha.Substring(17, 2); // Id do registro opcional
                     var espacoVazio = linha.Substring(59, 181); // Espaço vazio
                     var segmento = linha.Substring(13, 1);
+                    var tipoServico = linha.Substring(9, 2);
 
                     var filtroHeader = "";
                     switch (tipoRegistro)
@@ -625,7 +628,11 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                     filtroHeader = descricaoRegistroUm_BloquetoEletronico;
                                     break;
                                 case "010":
-                                    filtroHeader = descricaoRegistroUm_BasesSistemas;
+                                    if (tipoServico.Trim().Length == 0)
+                                        filtroHeader = descricaoRegistroUm_BasesSistemas;
+                                    else
+                                        filtroHeader = descricaoRegistroUm_AlegacaoSacado;
+
                                     break;
                             }
                             foreach (var rootItem in itensJson) // Loop dentro do Json
