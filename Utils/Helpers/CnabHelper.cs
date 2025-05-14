@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Validators;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -6,6 +7,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
 {
     public class CnabHelper
     {
+        const string cob400 = "COB400";
+        const string mtp240 = "MTP240";
+        const string cob240 = "COB240";
+
         #region TRATAMENTO DO ARQUIVO
         public bool VerificarExtensao(string extensao)
         {
@@ -41,7 +46,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
             using (var memoryStream = new MemoryStream(fileRows))
             using (var reader = new StreamReader(memoryStream))
             {
-                if (layout.ToUpper() == "MTP240") // MultiPag
+                if (layout.ToUpper() == cob400)
                 {
                     int countTipo1 = 0;
                     int countTipo5 = 0;
@@ -53,9 +58,28 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
                     {
                         linhaAtual++;
 
-                        if (linha.Length < 240)
+                        if (linha.Length != 400)
                         {
-                            retornoErro = "Erro de integridade: Arquivo contém registro menor do que 240 caracteres na linha " + linhaAtual.ToString();
+                            retornoErro = "Erro de integridade: Arquivo contém registro diferente de 400 caracteres na linha " + linhaAtual.ToString();
+                            break;
+                        }
+                    }
+                }
+                if (layout.ToUpper() == mtp240 || layout.ToUpper() == cob240)
+                {
+                    int countTipo1 = 0;
+                    int countTipo5 = 0;
+                    bool hasTipo0 = false;
+                    bool hasTipo9 = false;
+                    bool erroTamanhoLinha = false;
+
+                    while ((linha = await reader.ReadLineAsync()) != null)
+                    {
+                        linhaAtual++;
+
+                        if (linha.Length != 240)
+                        {
+                            retornoErro = "Erro de integridade: Arquivo contém registro diferente de 240 caracteres na linha " + linhaAtual.ToString();
                             erroTamanhoLinha = true;
                             break;
                         }
@@ -84,6 +108,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
                     {
                         retornoErro = "Erro de integridade: Arquivo contém tipo '0' mas não contém tipo '9' na posição 8";
                     }
+
                     // Verificação 2: Quantidade de "1" deve ser igual a quantidade de "5"
                     else if (countTipo1 != countTipo5 && !erroTamanhoLinha)
                     {

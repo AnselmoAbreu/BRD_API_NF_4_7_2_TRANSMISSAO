@@ -64,25 +64,22 @@ namespace MeuProjeto.Controllers
                     return BadRequest("Não é possível validar arquivos acima de 10 mil linhas. Por favor, insira um arquivo menor para uma validação completa.");
 
                 //------------------------------------------------------------------------------------------------------------------------
-                //verifica integridade do arquivo
-                if (tipoArquivo == "MTP240")
-                {
-                    var retornoIntegridade = await util.VerificarIntegridadeArquivo(fileBytes, tipoArquivo);
-                    if (!string.IsNullOrEmpty(retornoIntegridade))
-                        return BadRequest(retornoIntegridade);
-                }
+                // ***** verifica integridade do arquivo *****
+
+                var retornoIntegridade = await util.VerificarIntegridadeArquivo(fileBytes, tipoArquivo);
+                if (!string.IsNullOrEmpty(retornoIntegridade))
+                    return BadRequest(retornoIntegridade);
 
                 //------------------------------------------------------------------------------------------------------------------------
                 // Acessa API de Regras e Processa o arquivo
                 string apiExternaUrl = "";
 
-                #if DEBUG
-                    apiExternaUrl = ConfigurationManager.AppSettings["BaseUrlApi"]; // Dev
-                #else
+#if DEBUG
+                apiExternaUrl = ConfigurationManager.AppSettings["BaseUrlApi"]; // Dev
+#else
                     apiExternaUrl = ConfigurationManager.AppSettings["BaseUrlApiProd"]; // Prod
-                #endif
+#endif
 
-                //string apiExternaUrl = "https://localhost:44355/api/Layout/RetornaLayOut/?codigoLayout=" + tipoArquivo;
                 apiExternaUrl += tipoArquivo;
                 string resultadoApiExterna = await externalApiRegrasService.CallExternalApiAsync(apiExternaUrl);
 
