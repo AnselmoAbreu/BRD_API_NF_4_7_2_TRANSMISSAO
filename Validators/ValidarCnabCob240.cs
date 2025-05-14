@@ -67,13 +67,19 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         public bool ValidarDescricao_C006(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
-            return ValidarCampos();
+            if (!ValidarCampos())
+                return false;
+            var listaC006 = CriarListaC006();
+            return VerificarStringNaListaC006(campoAtual, listaC006);
         }
 
         public bool ValidarDescricao_C007(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
-            return ValidarCampos();
+            if (!ValidarCampos())
+                return false;
+            var listaC007 = CriarListaC007();
+            return VerificarStringNaListaC007(campoAtual, listaC007);
         }
 
         public bool ValidarDescricao_C008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
@@ -825,21 +831,47 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         #endregion
 
         #region LISTAS DE OPÇÕES DE CAMPOS
+        //=====================================================================
         public static List<string> CriarListaC004()
         {
             return new List<string>
             {
-                "01", "02", "03", "04", "05", "06", "07", "08", "09",
-                "10", "11", "12", "13", "14", "15", "16", "17", "18",
-                "19", "20", "21", "22", "23", "24", "30", "31", "33",
-                "34", "35", "40", "41", "42", "43", "44", "45", "46"
+                "01","02","03","04","05","06","07","08","09",
+                "10","11","12","13","14","15","16","17","18",
+                "19","20","21","22","24","25","26","27","30",
+                "31","33","34","35","40","41","42","43","44",
+                "45","46","47"
             };
         }
         public bool VerificarStringNaListaC004(string input, List<string> list)
         {
             return list.Contains(input);
         }
-
+        //=====================================================================
+        public static List<string> CriarListaC006()
+        {
+            return new List<string>
+            {
+                "1","2","3","4","5"
+            };
+        }
+        public bool VerificarStringNaListaC006(string input, List<string> list)
+        {
+            return list.Contains(input);
+        }
+        //=====================================================================
+        public static List<string> CriarListaC007()
+        {
+            return new List<string>
+            {
+                "1","2","3"
+            };
+        }
+        public bool VerificarStringNaListaC007(string input, List<string> list)
+        {
+            return list.Contains(input);
+        }
+        //=====================================================================
         #endregion
     }
 }
