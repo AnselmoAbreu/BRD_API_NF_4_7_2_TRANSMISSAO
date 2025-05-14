@@ -48,19 +48,11 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
             {
                 if (layout.ToUpper() == cob400)
                 {
-                    int countTipo1 = 0;
-                    int countTipo5 = 0;
-                    bool hasTipo0 = false;
-                    bool hasTipo9 = false;
-                    bool erroTamanhoLinha = false;
-
                     while ((linha = await reader.ReadLineAsync()) != null)
                     {
-                        linhaAtual++;
-
                         if (linha.Length != 400)
                         {
-                            retornoErro = "Erro de integridade: Arquivo contém registro diferente de 400 caracteres na linha " + linhaAtual.ToString();
+                            retornoErro = "Erro de integridade: Arquivo contém registro com tamanho diferente de 400 caracteres na linha " + linhaAtual.ToString();
                             break;
                         }
                     }
@@ -79,7 +71,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
 
                         if (linha.Length != 240)
                         {
-                            retornoErro = "Erro de integridade: Arquivo contém registro diferente de 240 caracteres na linha " + linhaAtual.ToString();
+                            retornoErro = "Erro de integridade: Arquivo contém registro com tamanho diferente de 240 caracteres na linha " + linhaAtual.ToString();
                             erroTamanhoLinha = true;
                             break;
                         }
