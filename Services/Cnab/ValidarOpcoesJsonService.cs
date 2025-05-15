@@ -73,13 +73,18 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
         const string registroCob400Tipo7 = "REGISTRO_TIPO_7";
 
         // COB240
-        const string registroCob240TipoZero = "REGISTRO_TIPO_0"; // Header de arquivo
-        const string registroCob240TipoNove = "REGISTRO_TIPO_9"; // Trailer de arquivo
-        const string registroCob240Tipo1 = "REGISTRO_TIPO_1";
-        const string registroCob240Tipo2 = "REGISTRO_TIPO_2";
-        const string registroCob240Tipo3 = "REGISTRO_TIPO_3";
-        const string registroCob240Tipo6 = "REGISTRO_TIPO_6";
-        const string registroCob240Tipo7 = "REGISTRO_TIPO_7";
+        const string registroCob240Tipo0 = "REGISTRO_TIPO_0"; // Header de arquivo
+        const string registroCob240Tipo9 = "REGISTRO_TIPO_9"; // Trailer de arquivo
+        const string registroCob240Tipo1 = "REGISTRO_TIPO_1"; // Header de lote
+        const string registroCob240Tipo3P = "REGISTRO_TIPO_3P"; // Detalhe
+        const string registroCob240Tipo3R = "REGISTRO_TIPO_3R"; // Detalhe
+        const string registroCob240Tipo3S = "REGISTRO_TIPO_3S"; // Detalhe
+        const string registroCob240Tipo3Y01 = "REGISTRO_TIPO_3Y01"; // Detalhe
+        const string registroCob240Tipo3Y03 = "REGISTRO_TIPO_3Y03"; // Detalhe
+        const string registroCob240Tipo3Y50 = "REGISTRO_TIPO_3Y50"; // Detalhe
+        const string registroCob240Tipo3T = "REGISTRO_TIPO_3T"; // Detalhe
+        const string registroCob240Tipo3U = "REGISTRO_TIPO_3U"; // Detalhe
+        const string registroCob240Tipo5 = "REGISTRO_TIPO_5"; // Trailer de arquivo
 
         //----------------------------------
         const string cobranca400 = "COB400";
@@ -362,7 +367,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                         case "0": // Header de arquivo
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key == registroZero)
+                                if (rootItem.Key == registroCob240Tipo0)
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
@@ -370,7 +375,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
 
-                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                        MethodInfo metodo = typeof(ValidarCnabCob240).GetMethod(
                                             metodoNome,
                                             new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
 
@@ -379,7 +384,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         retorno = true;
                                         if (metodo != null)
                                         {
-                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                            retorno = (bool)metodo.Invoke(_validarCnabCob240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
                                         }
                                         else
                                         {
@@ -399,7 +404,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                         case "9": // Trailer de arquivo
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key == registroNove)
+                                if (rootItem.Key == registroCob240Tipo9)
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
@@ -407,7 +412,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
 
-                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                        MethodInfo metodo = typeof(ValidarCnabCob240).GetMethod(
                                             metodoNome,
                                             new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
 
@@ -416,7 +421,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         retorno = true;
                                         if (metodo != null)
                                         {
-                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                            retorno = (bool)metodo.Invoke(_validarCnabCob240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
                                         }
                                         else
                                         {
@@ -434,31 +439,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                             }
                             break;
                         case "1": // Header de lote
-                            switch (versaoLayout)
-                            {
-                                case "045":
-                                    filtroHeader = descricaoRegistroUm_PgVarios;
-                                    break;
-                                case "040":
-                                    filtroHeader = descricaoRegistroUm_PgTitulos;
-                                    break;
-                                case "012":
-                                    filtroHeader = descricaoRegistroUm_PgTributos;
-                                    break;
-                                case "022":
-                                    filtroHeader = descricaoRegistroUm_BloquetoEletronico;
-                                    break;
-                                case "010":
-                                    if (tipoServico.Trim().Length == 0)
-                                        filtroHeader = descricaoRegistroUm_BasesSistemas;
-                                    else
-                                        filtroHeader = descricaoRegistroUm_AlegacaoSacado;
-
-                                    break;
-                            }
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key == filtroHeader)
+                                if (rootItem.Key == registroCob240Tipo1)
                                 {
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
                                     {
@@ -466,7 +449,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
 
-                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                        MethodInfo metodo = typeof(ValidarCnabCob240).GetMethod(
                                             metodoNome,
                                             new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
 
@@ -475,7 +458,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         retorno = true;
                                         if (metodo != null)
                                         {
-                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                            retorno = (bool)metodo.Invoke(_validarCnabCob240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
                                         }
                                         else
                                         {
@@ -492,14 +475,9 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                             }
                             break;
                         case "5": // Trailer de lote
-                            if (espacoVazio.Trim().Length == 0) //181)
-                                filtroHeader = descricaoRegistroCinco_BasesSistemas;
-                            else
-                                filtroHeader = descricaoRegistroCinco_PgVarios;
-
                             foreach (var rootItem in itensJson) // Loop dentro do Json
                             {
-                                if (rootItem.Key == filtroHeader)
+                                if (rootItem.Key == registroCob240Tipo5)
                                 {
 
                                     foreach (var keyValueItem in rootItem.Value) // Loop dentro da chave principal
@@ -508,7 +486,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         TransferirParametros(parametro);
                                         string metodoNome = "ValidarDescricao_" + listaDeOpcoes;
 
-                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                        MethodInfo metodo = typeof(ValidarCnabCob240).GetMethod(
                                             metodoNome,
                                             new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
 
@@ -517,7 +495,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         retorno = true;
                                         if (metodo != null)
                                         {
-                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                            retorno = (bool)metodo.Invoke(_validarCnabCob240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
                                         }
                                         else
                                         {
@@ -537,59 +515,29 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                             var filtro = "";
                             switch (segmento)
                             {
-                                case "A":
-                                    filtro = segmentoVariosA;
+                                case "P":
+                                    filtro = registroCob240Tipo3P;
                                     break;
-                                case "B":
-                                    filtro = segmentoVariosB;
+                                case "R":
+                                    filtro = registroCob240Tipo3R;
                                     break;
-                                case "C":
-                                    filtro = segmentoVariosC;
+                                case "S":
+                                    filtro = registroCob240Tipo3S;
                                     break;
-                                case "5":
-                                    filtro = segmentoVarios5;
+                                case "T":
+                                    filtro = registroCob240Tipo3T;
                                     break;
-                                case "Z":
-                                    filtro = segmentoVariosZ;
-                                    break;
-                                case "J":
-                                    if (idRegistro == "52")
-                                        filtro = segmentoPgTit_J52;
-                                    else
-                                        filtro = segmentoPgTit_J;
-                                    break;
-                                case "O":
-                                    filtro = segmentoPgTrib_O;
-                                    break;
-                                case "N":
-                                    filtro = segmentoPgTrib_N;
-                                    break;
-                                case "W":
-                                    filtro = segmentoPgTrib_W;
-                                    break;
-                                case "G":
-                                    filtro = segmentoBloquetoEletronico_G;
-                                    break;
-                                case "H":
-                                    filtro = segmentoBloquetoEletronico_H;
+                                case "U":
+                                    filtro = registroCob240Tipo3U;
                                     break;
                                 case "Y":
                                     filtro = "";
+                                    if (idRegistro == "01")
+                                        filtro = registroCob240Tipo3Y01;
                                     if (idRegistro == "03")
-                                        filtro = segmentoBloquetoEletronico_Y03;
-                                    if (idRegistro == "51")
-                                        filtro = segmentoBloquetoEletronico_Y51;
-                                    if (idRegistro == "02")
-                                        filtro = segmentoAlegacaoSacado_Y2;
-                                    break;
-                                case "1":
-                                    filtro = segmento1_BasesSistemas;
-                                    break;
-                                case "2":
-                                    filtro = segmento2_BasesSistemas;
-                                    break;
-                                case "3":
-                                    filtro = segmento3_BasesSistemas;
+                                        filtro = registroCob240Tipo3Y03;
+                                    if (idRegistro == "50")
+                                        filtro = registroCob240Tipo3Y50;
                                     break;
                             }
                             foreach (var rootItem in itensJson) // Loop dentro do Json
@@ -609,7 +557,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         //
                                         //}
 
-                                        MethodInfo metodo = typeof(ValidarCnabMtp240).GetMethod(
+                                        MethodInfo metodo = typeof(ValidarCnabCob240).GetMethod(
                                             metodoNome,
                                             new Type[] { typeof(string), typeof(string), typeof(string), typeof(string) }
 
@@ -618,7 +566,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Services.Cnab
                                         retorno = true;
                                         if (metodo != null)
                                         {
-                                            retorno = (bool)metodo.Invoke(_validarCnabMtp240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
+                                            retorno = (bool)metodo.Invoke(_validarCnabCob240, new object[] { keyValueItem.Value, parametrosAnteriores, linha, linhaAnterior });
                                         }
                                         else
                                         {
