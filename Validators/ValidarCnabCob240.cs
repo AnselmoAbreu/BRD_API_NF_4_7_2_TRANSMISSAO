@@ -87,9 +87,10 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
 
         public bool ValidarDescricao_C008(string parametrosAtuais, string parametrosAnteriores, string linhaAtual, string linhaAnterior)
         {
+            TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
             if (!ValidarCampos())
                 return false;
-            if (campoAtual != "1" && campoAtual != "2")
+            if (Convert.ToInt32(campoAtual) != 1 && Convert.ToInt32(campoAtual) != 2)
                 return false;
             return true;
         }
@@ -256,6 +257,8 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
             if (!ValidarCampos())
                 return false;
+            if (!VerificarSeNumerico(campoAtual))
+                return false;
             var limites = Convert.ToInt32(campoAtual);
             if (limites < 2 && limites > 99)
                 return false;
@@ -279,7 +282,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
             TransferirParametros(parametrosAtuais, parametrosAnteriores, linhaAtual, linhaAnterior);
             if (!ValidarCampos())
                 return false;
-            if (campoAtual != "01" && campoAtual != "02" && campoAtual != "03")
+            if (campoAtual != "1" && campoAtual != "2" && campoAtual != "3")
                 return false;
             return true;
         }
@@ -1015,15 +1018,15 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         }
         public bool VerificarStringNaListaC047(string input, List<string> list)
         {
-            return list.Contains(input);
+            return list.Contains(input.Trim());
         }
         //=====================================================================
         public static List<string> CriarListaC066()
         {
             return new List<string>
             {
-                "01","02","03","04","05","06","07","08",
-                "09","10","11","12","13","14","15","16",
+                "1","2","3","4","5","6","7","8",
+                "9","10","11","12","13","14","15","16",
                 "17","18","19","20","21","22","23","24",
                 "25","26","27","28","29","30","31","32",
                 "33","34"
@@ -1031,7 +1034,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
         }
         public bool VerificarStringNaListaC066(string input, List<string> list)
         {
-            return list.Contains(input);
+            return list.Contains(Convert.ToInt32(input).ToString());
         }
         //=====================================================================
         public static List<string> CriarListaG025()
