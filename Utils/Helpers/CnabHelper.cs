@@ -1,5 +1,4 @@
-﻿using BRD_API_NF_4_7_2_TRANSMISSAO.Validators;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,6 +9,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
         const string cob400 = "COB400";
         const string mtp240 = "MTP240";
         const string cob240 = "COB240";
+        const string folha240 = "FPG240";
 
         #region TRATAMENTO DO ARQUIVO
         public bool VerificarExtensao(string extensao)
@@ -42,7 +42,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
             string retornoErro = "";
             string linha;
             int linhaAtual = 0;
-
+            layout = layout.ToUpper();
             using (var memoryStream = new MemoryStream(fileRows))
             using (var reader = new StreamReader(memoryStream))
             {
@@ -57,7 +57,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Utils.Helpers
                         }
                     }
                 }
-                if (layout.ToUpper() == mtp240 || layout.ToUpper() == cob240)
+                if (layout == mtp240 || layout == cob240 || layout == folha240)
                 {
                     int countTipo1 = 0;
                     int countTipo5 = 0;
