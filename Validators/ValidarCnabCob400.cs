@@ -58,7 +58,7 @@ namespace BRD_API_NF_4_7_2_TRANSMISSAO.Validators
                 return false;
 
             // Alfanumerico
-            if (tipo == "A" && campoAtual.Length < tamanho)
+            if ((tipo == "A" || tipo == "B") && campoAtual.Length < tamanho)
                 return false;
 
             // Data
